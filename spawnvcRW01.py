@@ -23,7 +23,7 @@ Hours = -5
 
 @bot.event
 async def on_voice_state_update(member, before, after):
-    print(f"\n{datetime.now() + timedelta(hours=Hours)} activity detected  {member.display_name}")
+    print(f"\n{datetime.datetime.now() + timedelta(hours=Hours)} activity detected  {member.display_name}")
     
     if after.channel is not None and after.channel.name == 'MakeNewChannel':
         category = after.channel.category
@@ -32,19 +32,19 @@ async def on_voice_state_update(member, before, after):
         else: mnn = member.display_name    
         new_channel = await category.create_voice_channel(f"VCX {mnn}") 
         await member.move_to(new_channel)
-        print(f"{datetime.now() + timedelta(hours=Hours)} member moved")
+        print(f"{datetime.datetime.now() + timedelta(hours=Hours)} member moved")
 
     if before.channel is not None and 'VCX' in str({before.channel}):
         if len(before.channel.members) == 0:
             await before.channel.delete()
-            print(f"{datetime.now() + timedelta(hours=Hours)} channel deleted")
+            print(f"{datetime.datetime.now() + timedelta(hours=Hours)} channel deleted")
         else:
             bcmdn = before.channel.members[0].display_name
             if '#' in bcmdn:
                 mnn = bcmdn[0:bcmdn.find('#')]
                 bcmdn=mnn
             await before.channel.edit(name = f"VCX {bcmdn}")
-            print(f"{datetime.now() + timedelta(hours=Hours)} channel renamed")
+            print(f"{datetime.datetime.now() + timedelta(hours=Hours)} channel renamed")
             
 # PC deploy
 #bot.run(os.getenv('TOKEN'))
