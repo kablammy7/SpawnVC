@@ -1,5 +1,5 @@
 # SpawnVC
-Discord bot for creating and deleting voice channels
+Python Discord bot for creating and deleting voice channels
 When somone joins the VC voice channel - it will create a ( VCX memberNickname ) channel and move them into it .
 When they leave the channel - the channel will be removed if empty or renamed to the next memberNickname in the channel .
 When the member whose memberNickname is in the channel name leaves the channel - the channel will be removed if empty or renamed to the next memberNickname in the channel .
