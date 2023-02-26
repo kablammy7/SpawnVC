@@ -6,8 +6,8 @@ import discord
 
 # uncomment the 2 lines below for PC deploy
 # comment the 2 lines below for railway deploy
-from dotenv import load_dotenv
-load_dotenv('.env')
+#from dotenv import load_dotenv
+#load_dotenv('.env')
 
 #intents = discord.Intents(messages=True, members=True, guilds=True, typing=True)
 
@@ -43,9 +43,9 @@ async def on_voice_state_update(member, before, after):
             print(f"channel renamed {datetime.datetime.now()}")
 
 # PC deploy
-bot.run(os.getenv('TOKEN'))
+#bot.run(os.getenv('TOKEN'))
 
 #railway deploy 
-#bot.run(os.environ['TOKEN'])
+bot.run(os.environ['TOKEN'])
 
 # invite https://discord.com/api/oauth2/authorize?client_id=1079357107771551814&permissions=16777232&scope=bot
