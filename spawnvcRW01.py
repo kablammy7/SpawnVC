@@ -22,7 +22,7 @@ bot = discord.Client(intents=intents)
 async def on_voice_state_update(member, before, after):
     print(f"\nactivity detected {datetime.datetime.now()} {member.display_name}")
     
-    if after.channel is not None and after.channel.name == 'VCmakeNewChannel':
+    if after.channel is not None and after.channel.name == 'MakeNewChannel':
         category = after.channel.category
         if '#' in member.display_name:
             mnn = member.display_name[0:member.display_name.find('#')]
