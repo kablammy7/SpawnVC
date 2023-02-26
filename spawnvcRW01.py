@@ -22,16 +22,16 @@ bot = discord.Client(intents=intents)
 async def on_voice_state_update(member, before, after):
     print(f"\nactivity detected {datetime.datetime.now()} {member.display_name}")
     
-    if after.channel is not None and after.channel.name == 'COD':
+    if after.channel is not None and after.channel.name == 'VC':
         category = after.channel.category
         if '#' in member.display_name:
             mnn = member.display_name[0:member.display_name.find('#')]
         else: mnn = member.display_name    
-        new_channel = await category.create_voice_channel(f"CODX {mnn}") 
+        new_channel = await category.create_voice_channel(f"VCX {mnn}") 
         await member.move_to(new_channel)
         print(f"member moved {datetime.datetime.now()}")
 
-    if before.channel is not None and 'CODX' in str({before.channel}):
+    if before.channel is not None and 'VCX' in str({before.channel}):
         if len(before.channel.members) == 0:
             await before.channel.delete()
             print(f"channel deleted {datetime.datetime.now()}")
@@ -40,7 +40,7 @@ async def on_voice_state_update(member, before, after):
             if '#' in bcmdn:
                 mnn = bcmdn[0:bcmdn.find('#')]
                 bcmdn=mnn
-            await before.channel.edit(name = f"CODX {bcmdn}")
+            await before.channel.edit(name = f"VCX {bcmdn}")
             print(f"channel renamed {datetime.datetime.now()}")
 
 # PC deploy
