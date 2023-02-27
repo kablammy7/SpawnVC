@@ -1,4 +1,4 @@
-#spawnvcRW04-4
+#spawnvcRW04-6
 
 import os
 from datetime import datetime, timedelta
@@ -12,9 +12,9 @@ import discord
 #from dotenv import load_dotenv
 #load_dotenv('.env')
 
-#intents = discord.Intents(messages=True, members=True, guilds=True, typing=True)
-
-intents = discord.Intents().all()
+#intents = discord.Intents().all()
+#intents = discord.Intents.default()
+intents = discord.Intents(members=True, voice_states=True, value=True)
 bot = discord.Client(intents=intents)
 
 # bot = commands.Bot(command_prefix='!', intents=intents)
