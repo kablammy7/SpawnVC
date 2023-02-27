@@ -31,7 +31,6 @@ async def on_voice_state_update(member, before, after):
             name = f"VCX {before.channel.members[0].display_name.split('#')[0]}"
             await before.channel.edit(name=name)
 
-
 # PC deploy
 #bot.run(os.getenv('TOKEN'))
 
