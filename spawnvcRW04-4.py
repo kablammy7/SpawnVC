@@ -20,8 +20,9 @@ bot = discord.Client(intents=intents)
 # bot = commands.Bot(command_prefix='!', intents=intents)
 
 Hours = -5
+sleepTime = 0
 
-def formatDisplayName(bcmdn: str):
+def trimDisplayName(bcmdn: str):
     if '#' in bcmdn:
         mnn = bcmdn[0:bcmdn.find('#')]
     else: mnn = bcmdn
@@ -30,8 +31,7 @@ def formatDisplayName(bcmdn: str):
 @bot.event
 async def on_voice_state_update(member, before, after):
     bcmdn = member.display_name
-    
-    mnn = formatDisplayName(bcmdn)
+    mnn = trimDisplayName(bcmdn)
     
     print(f"\n\r{datetime.now() + timedelta(hours=Hours)} activity detected  {mnn} 01")
     print(f"{datetime.now() + timedelta(hours=Hours)} before  {before.channel} 00")
@@ -40,7 +40,7 @@ async def on_voice_state_update(member, before, after):
     print((f"{before.channel}") != (f"{after.channel}"))
     
     bcmdn = member.display_name
-    mnn = formatDisplayName(bcmdn)
+    mnn = trimDisplayName(bcmdn)
     print((f"VCX {mnn}  {after.channel} equal -> block ?"))
     print((f"VCX {mnn}") == (f"{after.channel}"))
     
@@ -52,25 +52,26 @@ async def on_voice_state_update(member, before, after):
             category = after.channel.category
 
             new_channel = await category.create_voice_channel(f"VCX {mnn}")
-            time.sleep(.3);
+            time.sleep(sleepTime);
             await member.move_to(new_channel)
-            time.sleep(.3);
+            time.sleep(sleepTime);
             print(f"{datetime.now() + timedelta(hours=Hours)} member moved 03")
 
         if before.channel is not None and 'VCX' in str({before.channel}):
             print(f"{datetime.now() + timedelta(hours=Hours)} before  {before.channel} 04")
             if len(before.channel.members) == 0:
                 await before.channel.delete()
-                time.sleep(.3);
+                time.sleep(sleepTime);
                 print(f"{datetime.now() + timedelta(hours=Hours)} channel deleted 05")
             else:
                 bcmdn = before.channel.members[0].display_name
-
-                mnn = formatDisplayName(bcmdn)
+                mnn = trimDisplayName(bcmdn)
+                print("member name before channel rename : " + f"VCX {mnn}");
                 
                 print(f"{datetime.now() + timedelta(hours=Hours)} before  {before.channel} 06")
+                time.sleep(sleepTime);
                 await before.channel.edit(name = f"VCX {mnn}")
-                time.sleep(.3);
+                time.sleep(sleepTime);
                 print(f"{datetime.now() + timedelta(hours=Hours)} channel renamed VCX {mnn} 07")
         
     print(f"{datetime.now() + timedelta(hours=Hours)} before  {before.channel} 08")
