@@ -10,73 +10,28 @@ import discord
 # uncomment the 2 lines below for PC deploy
 # comment the 2 lines below for railway deploy
 #from dotenv import load_dotenv
-#load_dotenv('.env')
+#load_dotenv('spammytest.env')
 
-#intents = discord.Intents().all()
-#intents = discord.Intents.default()
 intents = discord.Intents(members=True, voice_states=True, value=True)
 bot = discord.Client(intents=intents)
 
-# bot = commands.Bot(command_prefix='!', intents=intents)
-
-Hours = -5
-sleepTime = 0
-
-def trimDisplayName(bcmdn: str):
-    if '#' in bcmdn:
-        mnn = bcmdn[0:bcmdn.find('#')]
-    else: mnn = bcmdn
-    return mnn
-
 @bot.event
 async def on_voice_state_update(member, before, after):
-    bcmdn = member.display_name
-    mnn = trimDisplayName(bcmdn)
-    
-    print(f"\n\r{datetime.now() + timedelta(hours=Hours)} activity detected  {mnn} 01")
-    print(f"{datetime.now() + timedelta(hours=Hours)} before  {before.channel} 00")
-    print(f"{datetime.now() + timedelta(hours=Hours)} after  {after.channel} 00")
-    print("before and after channel names not equal -> pass ? ")
-    print((f"{before.channel}") != (f"{after.channel}"))
-    
-    bcmdn = member.display_name
-    mnn = trimDisplayName(bcmdn)
-    print((f"VCX {mnn}  {after.channel} equal -> block ?"))
-    print((f"VCX {mnn}") == (f"{after.channel}"))
-    
-    if ((f"{before.channel}") != (f"{after.channel}")) and (f"VCX {mnn}")  != (f"{after.channel}"):
-        if ((after.channel is not None and after.channel.name == 'MakeNewChannel') or
-            (before.channel is not None and before.channel.name == 'MakeNewChannel') and
-            (f"VCX {mnn}" != after.channel)):
-            print(f"{datetime.now() + timedelta(hours=Hours)} after  {after.channel} 02")
-            category = after.channel.category
 
-            new_channel = await category.create_voice_channel(f"VCX {mnn}")
-            time.sleep(sleepTime);
-            await member.move_to(new_channel)
-            time.sleep(sleepTime);
-            print(f"{datetime.now() + timedelta(hours=Hours)} member moved 03")
+    if after.channel is not None and after.channel.name == "MakeNewChannel":
+        category = after.channel.category
+        name = f"VCX {member.display_name.split('#')[0]}"
+        channel = await category.create_voice_channel(name)
+        await member.move_to(channel)
 
-        if before.channel is not None and 'VCX' in str({before.channel}):
-            print(f"{datetime.now() + timedelta(hours=Hours)} before  {before.channel} 04")
-            if len(before.channel.members) == 0:
-                await before.channel.delete()
-                time.sleep(sleepTime);
-                print(f"{datetime.now() + timedelta(hours=Hours)} channel deleted 05")
-            else:
-                bcmdn = before.channel.members[0].display_name
-                mnn = trimDisplayName(bcmdn)
-                print("member name before channel rename : " + f"VCX {mnn}");
-                
-                print(f"{datetime.now() + timedelta(hours=Hours)} before  {before.channel} 06")
-                time.sleep(sleepTime);
-                await before.channel.edit(name = f"VCX {mnn}")
-                time.sleep(sleepTime);
-                print(f"{datetime.now() + timedelta(hours=Hours)} channel renamed VCX {mnn} 07")
-        
-    print(f"{datetime.now() + timedelta(hours=Hours)} before  {before.channel} 08")
-    print(f"{datetime.now() + timedelta(hours=Hours)} after  {after.channel} 09")
-            
+    if before.channel is not None and 'VCX' in str({before.channel}):
+        if len(before.channel.members) == 0:
+            await before.channel.delete()
+        else:
+            name = f"VCX {before.channel.members[0].display_name.split('#')[0]}"
+            await before.channel.edit(name=name)
+
+
 # PC deploy
 #bot.run(os.getenv('TOKEN'))
 
