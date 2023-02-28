@@ -1,4 +1,4 @@
-#spawnvcRW04-8
+#spawnvcRW04-9-1
 
 import os
 from datetime import datetime, timedelta
@@ -22,6 +22,14 @@ async def on_voice_state_update(member, before, after):
     print(f"\n\r{datetime.now() + timedelta(hours=Hours)} activity detected {member.display_name.split('#')[0]} 01")
     print(f"{datetime.now() + timedelta(hours=Hours)} before  {before.channel} 00")
     print(f"{datetime.now() + timedelta(hours=Hours)} after  {after.channel} 00")
+    if after.channel:
+        print(f"{member.name} joined {after.channel.name}")
+        print(f"Muted: {after.mute}")
+        print(f"Deafened: {after.deaf}")
+        print(f"Self Mute: {after.self_mute}")
+        print(f"Self Deaf: {after.self_deaf}")
+    else:
+        print(f"{member.name} left the voice channel.")
     
     if after.channel is not None and after.channel.name == "MakeNewChannel":
         category = after.channel.category
