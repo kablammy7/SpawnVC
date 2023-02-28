@@ -1,4 +1,4 @@
-#spawnvcRW04-7
+#spawnvcRW04-8
 
 import os
 from datetime import datetime, timedelta
@@ -33,17 +33,14 @@ async def on_voice_state_update(member, before, after):
     if before.channel is not None and 'VCX' in str({before.channel}):
         memberName = f"VCX {member.display_name.split('#')[0]}"
         if len(before.channel.members) == 0:
-           # ('\n\r' f"{before.channel}" + name)
             await before.channel.delete()
             print(f"{datetime.now() + timedelta(hours=Hours)} {before.channel} deleted  + name + 03")
         else:
             beforeChannel = f"{before.channel}"
-            print (f"{datetime.now() + timedelta(hours=Hours)} member name {memberName} " + f" before channel {before.channel} 04")
-            if f"{memberName}"  == f"{before.channel}":
+            if((f"{before.channel}") != (f"{after.channel}")):
                 newName = f"VCX {before.channel.members[0].display_name.split('#')[0]}"
-        
                 await before.channel.edit(name=newName)
-                print(f"{datetime.now() + timedelta(hours=Hours)} before channel  {beforeChannel}  renamed to {newName} + 05")
+                print(f"{datetime.now() + timedelta(hours=Hours)} before channel  {beforeChannel}  renamed to {newName} + 04")
 
 # PC deploy
 #bot.run(os.getenv('TOKEN'))
