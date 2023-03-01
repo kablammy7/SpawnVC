@@ -1,9 +1,8 @@
-#spawnvcRW05-0
+#spawnvcPC5-0
 
 import os
 from datetime import datetime, timedelta
 import time
-
 import discord
 from discord.ext import commands
 
@@ -15,38 +14,36 @@ from discord.ext import commands
 intents = discord.Intents().all()
 #intents = discord.Intents().default()
 #intents = discord.Intents(members=True, voice_states=True, value=True)
-#bot = discord.bot(intents=intents)
-bot = commands.Bot(command_prefix='?', intents=intents)
+#client = discord.Client(intents=intents)
+client = commands.Bot(command_prefix='?', intents=intents)
 
-Hours = -5
-
-
-##@client.command()
-##async def restart(ctx):
-##    message = client.guilds[0].name + ' server is restarting'
-##    print(message)
-##    await ctx.send(message)
-##    print(message)
-##    member = client.guilds[0].get_member(425437217612103684)
-##    await member.send(message)
-##    os.execv(sys.executable, ['python'] + sys.argv)
-##    #await client.close()
-##    #await client.logout()
-##
-##os.getenv('TOKEN')
-##
-##
-##@client.command()
-##async def ping(ctx):
-##    embed = discord.Embed(description=(f'Pong!'),  colour=discord.Colour.purple())
-##    print('pong sent')
-##    await ctx.send(embed=embed)
-##
-##@client.command()
-##async def latency(ctx):
-##    await ctx.send (f" {client.latency}")
+ZuluDiff = 0
 
 
+@client.command()
+async def restart(ctx):
+    message = client.guilds[0].name + ' server is restarting'
+    print(message)
+    await ctx.send(message)
+    print(message)
+    member = client.guilds[0].get_member(425437217612103684)
+    await member.send(message)
+    os.execv(sys.executable, ['python'] + sys.argv)
+    #await client.close()
+    #await client.logout()
+
+os.getenv('TOKEN')
+
+
+@client.command()
+async def ping(ctx):
+    embed = discord.Embed(description=(f'Pong!'),  colour=discord.Colour.purple())
+    print('pong sent')
+    await ctx.send(embed=embed)
+
+@client.command()
+async def latency(ctx):
+    await ctx.send (f" {client.latency}")
 
 
 
@@ -56,14 +53,14 @@ Hours = -5
 
 
 
-@bot.event
+@client.event
 async def on_ready():
-    print('Logged in as {0.user}'.format(bot))
-    print('Connected to server: {}'.format(bot.guilds[0].name))
+    print('Logged in as {0.user}'.format(client))
+    print('Connected to server: {}'.format(client.guilds[0].name))
 
     print('\n\rMember of Guid')
     
-    for guild in bot.guilds:
+    for guild in client.guilds:
         print('\n\r' f"{guild.name}")
 
         adjustmentsMade = False
@@ -93,13 +90,13 @@ async def on_ready():
         message = ('adjustments made = 'f"{adjustmentsMade} on {guild.name} server")
         print('\n\rfinished cleaning up ' + message)
                     
-        member = bot.guilds[0].get_member(425437217612103684)
+        member = client.guilds[0].get_member(425437217612103684)
         print('sending message')
         await member.send(message)
 
     
 
-@bot.event
+@client.event
 async def on_voice_state_update(member, before, after):
     print(f"\n\r01 --> {datetime.now() + timedelta(hours=ZuluDiff)} activity detected \
 {member.display_name.split('#')[0]} (member name) {member.name}")
@@ -131,13 +128,12 @@ async def on_voice_state_update(member, before, after):
                 newName = f"VCX {before.channel.members[0].display_name.split('#')[0]}"
                 await before.channel.edit(name=newName)
                 print(f"04 --> {datetime.now() + timedelta(hours=ZuluDiff)} before channel  {beforeChannel}  renamed to {newName}")
-
-
+        
 
 # PC deploy
-#bot.run(os.getenv('TOKEN'))
+#client.run(os.getenv('TOKEN'))
 
 #railway deploy 
-bot.run(os.environ['TOKEN'])
+client.run(os.environ['TOKEN'])
 
 # invite https://discord.com/api/oauth2/authorize?client_id=1079357107771551814&permissions=16777232&scope=bot
