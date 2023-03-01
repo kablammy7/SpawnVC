@@ -28,7 +28,7 @@ async def restart(ctx):
     print(message)
     member = client.guilds[0].get_member(425437217612103684)
     await member.send(message)
-    os.execv(sys.executable, ['python'] + sys.argv)
+    #os.execv(sys.executable, ['python'] + sys.argv)
     #await client.close()
     #await client.logout()
 
@@ -127,7 +127,7 @@ async def on_voice_state_update(member, before, after):
             if((f"{before.channel}") != (f"{after.channel}")):
                 newName = f"VCX {before.channel.members[0].display_name.split('#')[0]}"
                 await before.channel.edit(name=newName)
-                print(f"04 --> {datetime.now() + timedelta(hours=ZuluDiff)} before channel  {beforeChannel}  renamed to {newName}")
+                print(f"04 --> {datetime.now() + timedelta(hours=ZuluDiff)} before channel {beforeChannel} renamed to {newName}")
         
 
 # PC deploy
