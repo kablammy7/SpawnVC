@@ -15,7 +15,7 @@ from discord.ext import commands
 intents = discord.Intents().all()
 #intents = discord.Intents().default()
 #intents = discord.Intents(members=True, voice_states=True, value=True)
-bot = discord.bot(intents=intents)
+#bot = discord.bot(intents=intents)
 bot = commands.Bot(command_prefix='?', intents=intents)
 
 Hours = -5
