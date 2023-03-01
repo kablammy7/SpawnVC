@@ -1,27 +1,3 @@
-#spawnvcRW05-0
-
-import os
-from datetime import datetime, timedelta
-import time
-
-import discord
-from discord.ext import commands
-
-# uncomment the 2 lines below for PC deploy
-# comment the 2 lines below for railway deploy
-#from dotenv import load_dotenv
-#load_dotenv('spammytest.env')
-
-intents = discord.Intents().all()
-#intents = discord.Intents().default()
-#client = discord.Client(intents=intents)
-#intents = discord.Intents(members=True, voice_states=True, value=True)
-
-client = commands.Bot(command_prefix='?', intents=intents)
-
-Hours = -5
-
-
 @client.command()
 async def restart(ctx):
     message = client.guilds[0].name + ' server is restarting'
@@ -130,13 +106,3 @@ async def on_voice_state_update(member, before, after):
                 newName = f"VCX {before.channel.members[0].display_name.split('#')[0]}"
                 await before.channel.edit(name=newName)
                 print(f"04 --> {datetime.now() + timedelta(hours=ZuluDiff)} before channel  {beforeChannel}  renamed to {newName}")
-
-
-
-# PC deploy
-#bot.run(os.getenv('TOKEN'))
-
-#railway deploy 
-bot.run(os.environ['TOKEN'])
-
-# invite https://discord.com/api/oauth2/authorize?client_id=1079357107771551814&permissions=16777232&scope=bot
