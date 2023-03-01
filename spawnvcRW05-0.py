@@ -15,36 +15,36 @@ from discord.ext import commands
 intents = discord.Intents().all()
 #intents = discord.Intents().default()
 #intents = discord.Intents(members=True, voice_states=True, value=True)
-client = discord.Client(intents=intents)
-#client = commands.Bot(command_prefix='?', intents=intents)
+bot = discord.bot(intents=intents)
+bot = commands.Bot(command_prefix='?', intents=intents)
 
 Hours = -5
 
 
-##@client.command()
+##@bot.command()
 ##async def restart(ctx):
-##    message = client.guilds[0].name + ' server is restarting'
+##    message = bot.guilds[0].name + ' server is restarting'
 ##    print(message)
 ##    await ctx.send(message)
 ##    print(message)
-##    member = client.guilds[0].get_member(425437217612103684)
+##    member = bot.guilds[0].get_member(425437217612103684)
 ##    await member.send(message)
 ##    os.execv(sys.executable, ['python'] + sys.argv)
-##    #await client.close()
-##    #await client.logout()
+##    #await bot.close()
+##    #await bot.logout()
 ##
 ##os.getenv('TOKEN')
 ##
 ##
-##@client.command()
+##@bot.command()
 ##async def ping(ctx):
 ##    embed = discord.Embed(description=(f'Pong!'),  colour=discord.Colour.purple())
 ##    print('pong sent')
 ##    await ctx.send(embed=embed)
 ##
-##@client.command()
+##@bot.command()
 ##async def latency(ctx):
-##    await ctx.send (f" {client.latency}")
+##    await ctx.send (f" {bot.latency}")
 
 
 
@@ -54,14 +54,14 @@ Hours = -5
 
 
 
-@client.event
+@bot.event
 async def on_ready():
-    print('Logged in as {0.user}'.format(client))
-    print('Connected to server: {}'.format(client.guilds[0].name))
+    print('Logged in as {0.user}'.format(bot))
+    print('Connected to server: {}'.format(bot.guilds[0].name))
 
     print('\n\rMember of Guid')
     
-    for guild in client.guilds:
+    for guild in bot.guilds:
         print('\n\r' f"{guild.name}")
 
         adjustmentsMade = False
@@ -91,13 +91,13 @@ async def on_ready():
         message = ('adjustments made = 'f"{adjustmentsMade} on {guild.name} server")
         print('\n\rfinished cleaning up ' + message)
                     
-        member = client.guilds[0].get_member(425437217612103684)
+        member = bot.guilds[0].get_member(425437217612103684)
         print('sending message')
         await member.send(message)
 
     
 
-@client.event
+@bot.event
 async def on_voice_state_update(member, before, after):
     print(f"\n\r01 --> {datetime.now() + timedelta(hours=ZuluDiff)} activity detected \
 {member.display_name.split('#')[0]} (member name) {member.name}")
