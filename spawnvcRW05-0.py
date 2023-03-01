@@ -19,6 +19,7 @@ client = commands.Bot(command_prefix='?', intents=intents)
 
 ZuluDiff = 0
 
+
 @client.command()
 async def restart(ctx):
     message = client.guilds[0].name + ' server is restarting'
