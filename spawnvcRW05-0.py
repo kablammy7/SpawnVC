@@ -28,9 +28,9 @@ async def restart(ctx):
     print(message)
     member = client.guilds[0].get_member(425437217612103684)
     await member.send(message)
-    os.execv(sys.executable, ['python'] + sys.argv)
+    #os.execv(sys.executable, ['python'] + sys.argv)
     #await client.close()
-    #await client.logout()
+    await client.logout()
 
 os.getenv('TOKEN')
 
