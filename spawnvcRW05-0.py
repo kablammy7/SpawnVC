@@ -22,7 +22,7 @@ ZuluDiff = 0
 
 @client.command()
 async def restart(ctx):
-    message = client.guilds[0].name + ' server is restarting'
+    message = client.guilds[0].name + ' bot is restarting'
     print(message)
     await ctx.send(message)
     print(message)
