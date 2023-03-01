@@ -1,10 +1,10 @@
-#spawnvcPC5-0
+#spawnvcPC05-0
 
 import os
 from datetime import datetime, timedelta
 import time
 import discord
-#from discord.ext import commands
+from discord.ext import commands
 
 # uncomment the 2 lines below for PC deploy
 # comment the 2 lines below for railway deploy
@@ -14,8 +14,8 @@ import discord
 intents = discord.Intents().all()
 #intents = discord.Intents().default()
 #intents = discord.Intents(members=True, voice_states=True, value=True)
-client = discord.Client(intents=intents)
-#client = commands.Bot(command_prefix='?', intents=intents)
+#client = discord.Client(intents=intents)
+client = commands.Bot(command_prefix='?', intents=intents)
 
 ZuluDiff = 0
 
@@ -44,7 +44,6 @@ ZuluDiff = 0
 ##@client.command()
 ##async def latency(ctx):
 ##    await ctx.send (f" {client.latency}")
-
 
 
 
