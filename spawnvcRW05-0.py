@@ -17,35 +17,35 @@ intents = discord.Intents().all()
 #client = discord.Client(intents=intents)
 #intents = discord.Intents(members=True, voice_states=True, value=True)
 
-client = commands.Bot(command_prefix='?', intents=intents)
+#client = commands.Bot(command_prefix='?', intents=intents)
 
 Hours = -5
 
 
-@client.command()
-async def restart(ctx):
-    message = client.guilds[0].name + ' server is restarting'
-    print(message)
-    await ctx.send(message)
-    print(message)
-    member = client.guilds[0].get_member(425437217612103684)
-    await member.send(message)
-    os.execv(sys.executable, ['python'] + sys.argv)
-    #await client.close()
-    #await client.logout()
-
-os.getenv('TOKEN')
-
-
-@client.command()
-async def ping(ctx):
-    embed = discord.Embed(description=(f'Pong!'),  colour=discord.Colour.purple())
-    print('pong sent')
-    await ctx.send(embed=embed)
-
-@client.command()
-async def latency(ctx):
-    await ctx.send (f" {client.latency}")
+##@client.command()
+##async def restart(ctx):
+##    message = client.guilds[0].name + ' server is restarting'
+##    print(message)
+##    await ctx.send(message)
+##    print(message)
+##    member = client.guilds[0].get_member(425437217612103684)
+##    await member.send(message)
+##    os.execv(sys.executable, ['python'] + sys.argv)
+##    #await client.close()
+##    #await client.logout()
+##
+##os.getenv('TOKEN')
+##
+##
+##@client.command()
+##async def ping(ctx):
+##    embed = discord.Embed(description=(f'Pong!'),  colour=discord.Colour.purple())
+##    print('pong sent')
+##    await ctx.send(embed=embed)
+##
+##@client.command()
+##async def latency(ctx):
+##    await ctx.send (f" {client.latency}")
 
 
 
