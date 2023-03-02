@@ -17,7 +17,7 @@ intents = discord.Intents().all()
 #client = discord.Client(intents=intents)
 client = commands.Bot(command_prefix='?', intents=intents)
 
-ZuluDiff = 5
+ZuluDiff = -5
 
 
 @client.command()
