@@ -47,18 +47,6 @@ async def latency(ctx):
     await ctx.send (f" {client.latency}")
 
 
-@client.command()
-async def lvc(ctx):
-    guild = ctx.guild
-    voice_channels = guild.voice_channels
-    channel_list = ""
-    for channel in voice_channels:
-        members = channel.members
-        member_list = [member.name for member in members]
-        member_string = ", ".join(member_list) if member_list else "None"
-        channel_list += f"{channel.name}: {member_string}\n"
-    await ctx.send(channel_list)
-    
     
     
     
