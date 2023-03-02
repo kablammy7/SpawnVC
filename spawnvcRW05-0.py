@@ -137,4 +137,4 @@ async def on_voice_state_update(member, before, after):
 #railway deploy 
 client.run(os.environ['TOKEN'])
 
-# invite https://discord.com/api/oauth2/authorize?client_id=1079357107771551814&permissions=16777232&scope=bot
+# https://discord.com/api/oauth2/authorize?client_id=1079357107771551814&permissions=16787472&scope=bot%20applications.commands
