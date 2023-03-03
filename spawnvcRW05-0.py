@@ -1,10 +1,11 @@
 #spawnvcPC05-0
-
 import os
+import asyncio
 from datetime import datetime, timedelta
 import time
 import discord
 from discord.ext import commands
+from reportlab.pdfgen import canvas
 
 # uncomment the 2 lines below for PC deploy
 # comment the 2 lines below for railway deploy
@@ -45,6 +46,29 @@ async def ping(ctx):
 @client.command()
 async def latency(ctx):
     await ctx.send (f" {client.latency}")
+
+
+@client.command()
+async def lvc(ctx):
+    guild = ctx.guild
+    voice_channels = guild.voice_channels
+    channel_list = ""
+    for channel in voice_channels:
+        members = channel.members
+        member_list = [member.display_name for member in members]
+        member_string = ", ".join(member_list) if member_list else "None"
+        channel_list += f"{channel.name}: {member_string}\n"
+    await ctx.send(channel_list)
+
+
+
+
+
+
+
+
+
+
 
 
 
