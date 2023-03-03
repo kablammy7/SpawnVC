@@ -1,4 +1,4 @@
-#spawnvcPC05-0
+#spawnvcPC05-1
 import os
 import asyncio
 from datetime import datetime, timedelta
@@ -60,7 +60,6 @@ async def latency(ctx):
 ##        member_string = ", ".join(member_list) if member_list else "None"
 ##        channel_list += f"{channel.name}: {member_string}\n"
 ##    await ctx.send(channel_list)
-
 
 
 
@@ -194,6 +193,7 @@ async def on_voice_state_update(member, before, after):
                 newName = f"VCX {before.channel.members[0].display_name.split('#')[0]}"
                 await before.channel.edit(name=newName)
                 print (f"04 --> {datetime.now() + timedelta(hours=ZuluDiff)} before channel {beforeChannel} renamed to {newName}")
+ 
  
 
 
