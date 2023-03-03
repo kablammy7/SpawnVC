@@ -21,7 +21,7 @@ client = commands.Bot(command_prefix='?', intents=intents)
 ZuluDiff = -5
 
 
-@client.command()
+client.command()
 async def restart(ctx):
 
     message = client.guilds[0].name + ' server is restarting'
@@ -49,28 +49,33 @@ async def latency(ctx):
     await ctx.send (f" {client.latency}")
 
 
-@client.event
-async def on_message(message):
+@client.command()
+async def lvc(ctx):
+    guild = ctx.guild
+    voice_channels = guild.voice_channels
+    channel_list = ""
+    for channel in voice_channels:
+        members = channel.members
+        member_list = [member.display_name for member in members]
+        member_string = ", ".join(member_list) if member_list else "None"
+        channel_list += f"{channel.name}: {member_string}\n"
+    await ctx.send(channel_list)
 
-    if message.content.startswith('!move'):
-        member_name = message.content.split()[1] # extract member name
-        channel_name = message.content.split()[2] # extract channel name
 
-        # find the member and voice channel objects by their names
-        member = discord.utils.get(message.guild.members, name=member_name)
-        voice_channel = discord.utils.get(message.guild.voice_channels, name=channel_name)
 
-        if member is None:
-            await message.channel.send(f"Could not find a member named {member_name}")
-            return
 
-        if voice_channel is None:
-            await message.channel.send(f"Could not find a voice channel named {channel_name}")
-            return
 
-        # move the member to the specified voice channel
-        await member.move_to(voice_channel)
-        await message.channel.send(f"Moved {member_name} to {channel_name}")
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -88,10 +93,11 @@ async def on_message(message):
 async def on_ready():
 
     print ('Logged in as {0.user}'.format(client))
-    print ('Connected to server: {}'.format(client.guilds[0].name))
+    print(f'Connected to {len(client.guilds)} guilds')
 
-    print ('\n\rMember of Guid')
-    
+    for guild in client.guilds:
+        print ('Connected to server: {}'.format(guild.name))
+
     for guild in client.guilds:
         print ('\n\r' f"{guild.name}")
 
@@ -125,8 +131,32 @@ async def on_ready():
         member = client.guilds[0].get_member(425437217612103684)
         print ('sending message')
         await member.send(message)
+        
+# Remove empty VCX channels
+        
+        for channel in channels:
+            #print ('start channel name = ' + channel.name)
+            if (channel.name.startswith('VCX') and len(channel.members) == 0):
+                await channel.delete()
+                adjustmentsMade = True
+                print ('deleted ' + channel.name)
 
-    
+# exit on_ready
+
+    print ('exiting on_ready now')
+    exit
+
+
+
+
+
+
+
+
+
+
+
+
 
 @client.event
 async def on_voice_state_update(member, before, after):
@@ -164,6 +194,7 @@ async def on_voice_state_update(member, before, after):
                 await before.channel.edit(name=newName)
                 print (f"04 --> {datetime.now() + timedelta(hours=ZuluDiff)} before channel {beforeChannel} renamed to {newName}")
  
+
 
         
 
