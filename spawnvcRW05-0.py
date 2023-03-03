@@ -73,33 +73,29 @@ async def lvc(ctx):
 
 
 
+print ('Logged in as {0.user}'.format(client))
+    print ('Connected to server: {}'.format(client.guilds[0].name))
 
-
-@client.event
-async def on_ready():
-    print('Logged in as {0.user}'.format(client))
-    print('Connected to server: {}'.format(client.guilds[0].name))
-
-    print('\n\rMember of Guid')
+    print ('\n\rMember of Guid')
     
     for guild in client.guilds:
-        print('\n\r' f"{guild.name}")
+        print ('\n\r' f"{guild.name}")
 
         adjustmentsMade = False
         channels = guild.voice_channels
         
         # Remove empty VCX channels
         for channel in channels:
-            #print('start channel name = ' + channel.name)
+            #print ('start channel name = ' + channel.name)
             if (channel.name.startswith('VCX') and len(channel.members) == 0):
                 await channel.delete()
                 adjustmentsMade = True
-                print('deleted ' + channel.name)
+                print ('deleted ' + channel.name)
 
         # move members out of MakeNewChannel channel   
         for channel in channels:
             if ((f"{channel.name}"== 'MakeNewChannel') and (len(channel.members)) != 0):
-                #print(channel.name)
+                #print (channel.name)
                 lenChannelMembers = len(channel.members)
                 while len(channel.members) > 0:
                     mncMember =  channel.members[0]
@@ -107,15 +103,22 @@ async def on_ready():
                     movedToChannel = await channel.category.create_voice_channel(name)
                     await mncMember.move_to(movedToChannel)
                     adjustmentsMade = True
-                    print('channel ' + name + ' created moved ' + mncMember.name)
+                    print ('channel ' + name + ' created moved ' + mncMember.name)
 
         message = ('adjustments made = 'f"{adjustmentsMade} on {guild.name} server")
-        print('\n\rfinished cleaning up ' + message)
+        print ('\n\rfinished cleaning up ' + message)
                     
         member = client.guilds[0].get_member(425437217612103684)
-        print('sending message')
+        print ('sending message')
         await member.send(message)
 
+
+
+    
+    
+    
+    
+    
     
 
 @client.event
