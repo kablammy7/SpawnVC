@@ -1,16 +1,17 @@
-#spawnvcPC05-1
+#spawnvcRW5-2.py
+
 import os
 import asyncio
 from datetime import datetime, timedelta
 import time
 import discord
 from discord.ext import commands
-
+#from reportlab.pdfgen import canvas
 
 # uncomment the 2 lines below for PC deploy
 # comment the 2 lines below for railway deploy
 #from dotenv import load_dotenv
-#load_dotenv('spammytest.env')
+#load_dotenv('..\env\spammytest.env')
 
 intents = discord.Intents().all()
 #intents = discord.Intents().default()
@@ -81,6 +82,8 @@ async def latency(ctx):
 
 
 
+
+
 #********************************* on ready *******************
 
 
@@ -130,24 +133,16 @@ async def on_ready():
         print ('sending message')
         await member.send(message)
         
-# Remove empty VCX channels
-        
-        for channel in channels:
-            #print ('start channel name = ' + channel.name)
-            if (channel.name.startswith('VCX') and len(channel.members) == 0):
-                await channel.delete()
-                adjustmentsMade = True
-                print ('deleted ' + channel.name)
-
-# exit on_ready
-
     print ('exiting on_ready now')
     exit
 
 
-
-
-
+def truncate_datetime(dt):
+    dt_str = str(dt)
+    period_index = dt_str.rfind(".")
+    if period_index != -1:
+        dt_str = dt_str[:period_index]
+    return dt_str
 
 
 
@@ -159,8 +154,9 @@ async def on_ready():
 @client.event
 async def on_voice_state_update(member, before, after):
 
-    #print(f"\n\r01 --> {datetime.now() + timedelta(hours=ZuluDiff)} activity detected \
-#{member.display_name.split('#')[0]} (member name) {member.name}")
+    
+
+#     print(f"\n\r01 --> {datetime.now() + timedelta(hours=ZuluDiff)} activity detected {member.display_name.split('#')[0]} (member name) {member.name}")
 ##    print (f"{before.channel}    VCX {member.display_name.split('#')[0]}")
 ##    print (f"{after.channel}       MakeNewChannel")
 ##    
@@ -170,32 +166,30 @@ async def on_voice_state_update(member, before, after):
 ##    if (f"{before.channel}" == f"VCX {member.display_name.split('#')[0]}") and \
 ##    (f"{after.channel}" != "MakeNewChannel"):
         
-    #print (f"\n\r01 --> {datetime.now() + timedelta(hours=ZuluDiff)} activity detected \
-#{member.display_name.split('#')[0]} (member name) {member.name}")
+#     print (f"\n\r01 --> {datetime.now() + timedelta(hours=ZuluDiff)} activity detected {member.display_name.split('#')[0]} (member name) {member.name}")
+    
+    memberDisplayName = member.display_name.split('#')[0]
+    memberName = member.name
 
     if after.channel is not None and after.channel.name == "MakeNewChannel":
         category = after.channel.category
         name = f"VCX {member.display_name.split('#')[0]}"
         channel = await category.create_voice_channel(name)
         await member.move_to(channel)
-        print (f"02 --> {datetime.now() + timedelta(hours=ZuluDiff)}  move to new channel {channel}")
+        print (f"01 --> {truncate_datetime(datetime.now() + timedelta(hours=ZuluDiff))}" f" {memberDisplayName} - {memberName} move to new channel {channel}")
  
     if before.channel is not None and 'VCX' in str({before.channel}):
-        memberName = f"VCX {member.display_name.split('#')[0]}"
+        #memberName = f"VCX {member.display_name.split('#')[0]}"
         if len(before.channel.members) == 0:
             await before.channel.delete()
-            print (f"03 --> {datetime.now() + timedelta(hours=ZuluDiff)} vacated channel {before.channel} deleted")
+            print (f"02 --> {truncate_datetime(datetime.now() + timedelta(hours=ZuluDiff))}" f" {memberDisplayName} - {memberName} vacated channel {before.channel} deleted")
         else:
             beforeChannel = f"{before.channel}"
             if((f"{before.channel}") != (f"{after.channel}")):
                 newName = f"VCX {before.channel.members[0].display_name.split('#')[0]}"
                 await before.channel.edit(name=newName)
-                print (f"04 --> {datetime.now() + timedelta(hours=ZuluDiff)} before channel {beforeChannel} renamed to {newName}")
+                print (f"03 --> {truncate_datetime(datetime.now() + timedelta(hours=ZuluDiff))}" f" {memberDisplayName} - {memberName} before channel {beforeChannel} renamed to {newName}")
  
- 
-
-
-        
 
 # PC deploy
 #client.run(os.getenv('TOKEN'))
