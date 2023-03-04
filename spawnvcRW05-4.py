@@ -9,8 +9,8 @@ import discord
 from discord.ext import commands
 from reportlab.pdfgen import canvas
 from discord.ext import commands, tasks
-from reportlab.pdfgen import canvas
-import re
+#from reportlab.pdfgen import canvas
+#import re
 
 
 # uncomment the 2 lines below for PC deploy
