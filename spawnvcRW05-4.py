@@ -8,9 +8,8 @@ import time
 import discord
 from discord.ext import commands
 from discord.ext import commands, tasks
+import re
 #from reportlab.pdfgen import canvas
-#import re
-
 
 # uncomment the 2 lines below for PC deploy
 # comment the 2 lines below for railway deploy
