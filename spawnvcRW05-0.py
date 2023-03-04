@@ -170,8 +170,8 @@ async def on_voice_state_update(member, before, after):
 ##    if (f"{before.channel}" == f"VCX {member.display_name.split('#')[0]}") and \
 ##    (f"{after.channel}" != "MakeNewChannel"):
         
-    print (f"\n\r01 --> {datetime.now() + timedelta(hours=ZuluDiff)} activity detected \
-{member.display_name.split('#')[0]} (member name) {member.name}")
+    #print (f"\n\r01 --> {datetime.now() + timedelta(hours=ZuluDiff)} activity detected \
+#{member.display_name.split('#')[0]} (member name) {member.name}")
 
     if after.channel is not None and after.channel.name == "MakeNewChannel":
         category = after.channel.category
