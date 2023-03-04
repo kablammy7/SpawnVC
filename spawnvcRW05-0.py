@@ -159,8 +159,8 @@ async def on_ready():
 @client.event
 async def on_voice_state_update(member, before, after):
 
-    print(f"\n\r01 --> {datetime.now() + timedelta(hours=ZuluDiff)} activity detected \
-{member.display_name.split('#')[0]} (member name) {member.name}")
+    #print(f"\n\r01 --> {datetime.now() + timedelta(hours=ZuluDiff)} activity detected \
+#{member.display_name.split('#')[0]} (member name) {member.name}")
 ##    print (f"{before.channel}    VCX {member.display_name.split('#')[0]}")
 ##    print (f"{after.channel}       MakeNewChannel")
 ##    
