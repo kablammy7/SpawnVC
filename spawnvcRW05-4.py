@@ -143,9 +143,9 @@ async def on_ready():
                 for i, c in enumerate(vc_channels):
                     await c.edit(position=target_index+i+1)
 
-                # Print the sorted voice channels (optional)
-                for c in all_channels:
-                    print(c.name)
+#                # Print the sorted voice channels (optional)
+#                for c in all_channels:
+#                    print(c.name)
 
         # move members out of MakeNewChannel channel   
         for channel in channels:
@@ -319,9 +319,9 @@ async def on_voice_state_update(member, before, after):
             for i, c in enumerate(vc_channels):
                 await c.edit(position=target_index+i+1)
 
-            # Print the sorted voice channels (optional)
-            for c in all_channels:
-                print(c.name)
+#            # Print the sorted voice channels (optional)
+#            for c in all_channels:
+#                print(c.name)
 
         else:
             beforeChannel = f"{before.channel}"
