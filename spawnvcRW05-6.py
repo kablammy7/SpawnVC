@@ -36,6 +36,7 @@ patternGetInt = r"^\D\D(\d{2})"
 channelsData = {}
 lockReporting = False
 reportNumber = 0
+printVC = False
 #guildData = {}
 
 
@@ -142,8 +143,10 @@ async def latency(ctx):
 
 @client.event
 async def on_ready():
-    lockRorting = False
-    reportNumber = 0
+    
+    global lockRorting
+    global printVC
+
     print ('\n\rLogged in as {0.user}'.format(client))
     print(f'Connected to {len(client.guilds)} guilds')
 
@@ -230,6 +233,7 @@ async def on_ready():
 
 
 def truncate_datetime (dt):
+
     dt_str = str(dt)
     period_index = dt_str.rfind(".")
     if period_index != -1:
@@ -273,18 +277,19 @@ def getNewChannelNumber (existingChannels):
 async def report():
     
     global reportNumber
+    global printVC
 
     if not lockReporting:
-        print ('\n\rreport starting ' + str(reportNumber))
-        print('\n\r')
-        reportNumber += 1
-        for guildName, channels in channelsData.items():
-            print(f"Guild : {[guildName]}")
-            for channelName, members in channels.items():
-                print([channelName], ' '.join(members), sep=' ')
-            print('\n\r')  # Print a new line between guilds
-    channelsData.clear()
-        
+        if printVC:
+            print ('\n\rreport starting ' + str(reportNumber))
+            reportNumber += 1
+            for guildName, channels in channelsData.items():
+                print(f"Guild : [{guildName}]")
+                for channelName, members in channels.items():
+                    print([channelName], [' '.join(members)], sep=' ')
+                print('\n\r')  # Print a new line between guilds
+        channelsData.clear()
+        printVC = False
 
 
 
@@ -304,6 +309,9 @@ async def report():
 
 @client.event
 async def on_voice_state_update(member, before, after):
+    
+    global printVC
+    global lockReporting
 
     guild = member.guild
     nlcr = '\n\r'
@@ -359,14 +367,14 @@ async def on_voice_state_update(member, before, after):
 
 
     lockReporting = True
-
+    
     for guild in client.guilds:
         channelsData[guild.name] = {}
         for channel in guild.voice_channels:
             channelsData[guild.name][channel.name] = [member.name for member in channel.members]
 
     lockReporting = False
-
+    printVC = True
 
     
 
