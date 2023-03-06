@@ -281,12 +281,13 @@ async def report():
 
     if not lockReporting:
         if printVC:
-            print ('\n\rreport starting ' + str(reportNumber))
+            print ('\n\rchannel report ' + str(reportNumber) + '\n\r')
             reportNumber += 1
             for guildName, channels in channelsData.items():
                 print(f"Guild : [{guildName}]")
                 for channelName, members in channels.items():
-                    print([channelName], [' '.join(members)], sep=' ')
+                    if members:  # check if members list is not empty
+                        print([channelName], [' '.join(members)], sep=' ')
                 print('\n\r')  # Print a new line between guilds
         channelsData.clear()
         printVC = False
