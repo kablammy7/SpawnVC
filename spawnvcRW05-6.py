@@ -276,13 +276,13 @@ async def report():
 
     if not lockReporting:
         print ('\n\rreport starting ' + str(reportNumber))
-        print()
+        print('\n\r')
         reportNumber += 1
         for guildName, channels in channelsData.items():
             print(f"Guild : {[guildName]}")
             for channelName, members in channels.items():
                 print([channelName], ' '.join(members), sep=' ')
-            print()  # Print a new line between guilds
+             print('\n\r')  # Print a new line between guilds
     channelsData.clear()
         
 
