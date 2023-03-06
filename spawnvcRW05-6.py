@@ -282,7 +282,7 @@ async def report():
             print(f"Guild : {[guildName]}")
             for channelName, members in channels.items():
                 print([channelName], ' '.join(members), sep=' ')
-             print('\n\r')  # Print a new line between guilds
+            print('\n\r')  # Print a new line between guilds
     channelsData.clear()
         
 
