@@ -21,7 +21,7 @@ import re
 
 #intents = discord.Intents().all()
 #intents = discord.Intents().default()
-intents = discord.Intents(members=True, voice_states=True, value=True)
+intents = discord.Intents(members=True, voice_states=True, value=True, message_content = True)
 client = discord.Client(intents=intents)
 client = commands.Bot(command_prefix='?', intents=intents)
 
