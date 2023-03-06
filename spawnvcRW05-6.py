@@ -31,25 +31,12 @@ client = commands.Bot(command_prefix='?', intents=intents)
 
 
 
-
-
-
-
-
 zuluDiff = -5
 patternGetInt = r"^\D\D(\d{2})"
 channelsData = {}
 lockReporting = False
 reportNumber = 0
 #guildData = {}
-
-
-
-
-
-
-
-
 
 
 
@@ -147,15 +134,6 @@ async def latency(ctx):
 
 
 
-
-
-
-
-
-
-
-
-
 #########################           on ready            #########################
 
 
@@ -238,19 +216,7 @@ async def on_ready():
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
 
 
 
@@ -309,12 +275,13 @@ async def report():
     global reportNumber
 
     if not lockReporting:
-        print ('report starting ' + str(reportNumber))
+        print ('\n\rreport starting ' + str(reportNumber))
+        print()
         reportNumber += 1
         for guildName, channels in channelsData.items():
-            print(guildName)
+            print(f"Guild : {[guildName]}")
             for channelName, members in channels.items():
-                print(channelName, ' '.join(members), sep=' ')
+                print([channelName], ' '.join(members), sep=' ')
             print()  # Print a new line between guilds
     channelsData.clear()
         
@@ -331,52 +298,7 @@ async def report():
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
 
 
 
@@ -446,6 +368,7 @@ async def on_voice_state_update(member, before, after):
     lockReporting = False
 
 
+    
 
 
 
