@@ -303,7 +303,7 @@ def getNewChannelNumber (existingChannels):
 
 
 
-@tasks.loop(seconds = 10) # repeat in 1 minute
+@tasks.loop(seconds = 60) # repeat in 1 minute
 async def report():
     
     global reportNumber
@@ -444,39 +444,6 @@ async def on_voice_state_update(member, before, after):
             channelsData[guild.name][channel.name] = [member.name for member in channel.members]
 
     lockReporting = False
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
