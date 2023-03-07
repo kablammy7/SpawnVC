@@ -271,18 +271,13 @@ def getNewChannelNumber (existingChannels):
 
 
 
-
-
-
-
-
-@tasks.loop(seconds = 60) # repeat in 1 minute
+@tasks.loop(seconds = 3) # repeat in 1 minute
 async def report():
     
     global reportNumber
     global doReport
 
-     if not lockReporting:
+    if not lockReporting:
         if doReport:
             print('\r')
             print ('#---------------#        channel report ' + str(reportNumber) + '        #---------------#'  + '\n\r')
@@ -297,15 +292,15 @@ async def report():
     #                    print(f"  {channelName:<25}{memberList:>25}")
 
 
-        for guild_name, guild_channels in channelsData.items():
-            print(f"\rGuild: [{guild_name}]")
-            for channel_name, channel_members in guild_channels.items():
-                if channel_members:
-                    print(f"----------->Channel     {channel_name}")
-                    for member in channel_members:
-                        print(f"-------------->Member-->{member}")
-                    print('\r')
-            print('\r')
+            for guild_name, guild_channels in channelsData.items():
+                print(f"\rGuild: [{guild_name}]")
+                for channel_name, channel_members in guild_channels.items():
+                    if channel_members:
+                        print(f"----------->Channel     {channel_name}")
+                        for member in channel_members:
+                            print(f"-------------->Member-->{member}")
+                        print('\r')
+                print('\r')
 
                         
             channelsData.clear()
@@ -315,6 +310,11 @@ async def report():
             print ('No activity')
     else:
         print ('reporting locked')
+
+
+
+
+
 
 
 
