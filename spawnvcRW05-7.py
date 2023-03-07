@@ -1,5 +1,5 @@
 
-#spawnvcPC05-6.py
+#spawnvcPC05-7.py
 
 import os
 import threading
@@ -7,17 +7,21 @@ import asyncio
 from datetime import datetime, timedelta
 import time
 import discord
-#from discord.ext import commands
+from discord.ext import commands
 from discord.ext import commands, tasks
 import re
+import openai
 #from reportlab.pdfgen import canvas
 
 
-
-# uncomment the 2 lines below for PC deploy
-# comment the 2 lines below for railway deploy
-#from dotenv import load_dotenv
+# uncomment the 3 lines below for PC deploy
+# comment the 3 lines below for railway deploy
+from dotenv import load_dotenv
 #load_dotenv('spammytest.env')
+#openai.api_key = os.getenv('TOKEN2')
+
+#uncomment for railway
+#openai.api_key = os.environ['TOKEN2']
 
 #intents = discord.Intents().all()
 #intents = discord.Intents().default()
@@ -48,35 +52,7 @@ printVC = False
 
 
 
-#async def my_function():
-#    # Do something here
-#    print("My function ran!")
 
-## Schedule the function to run every 10 minutes
-#async def run_function():
-#    while True:
-#        await my_function()
-#        await asyncio.sleep(10)  
-
-
-
-
-
-#async def my_coroutine():
-#    while True:
-#        print("Running my coroutine!")
-#        await asyncio.sleep(10)
-
-#def start_loop(loop):
-#    asyncio.set_event_loop(loop)
-#    loop.run_forever()
-
-
-#loop = asyncio.new_event_loop()
-#thread = threading.Thread(target=start_loop, args=(loop,))
-#thread.start()
-
-#asyncio.run(my_coroutine())
 
 
 
@@ -126,7 +102,29 @@ async def latency(ctx):
 
 
 
+#@client.event
+#async def on_message(message):
+#    print ('receieved ' + message.content)
+#    # Ignore messages sent by the bot itself
+#    if message.author == client.user:
+#        return
 
+#    if message.content.startswith('chatGPT'):
+#        words = message.content.split()
+#        words.pop(0)
+#        newMessage = " ".join(words)
+#        response = openai.Completion.create(
+#            engine="davinci",
+#            prompt=newMessage,
+#            max_tokens=100,
+#            n=1,
+#            stop=None,
+#            temperature=0.5,
+#            )
+#        response_text = response.choices[0].text.strip()
+
+#        # Send the response back to the member
+#        await message.channel.send(response_text)
 
 
 
@@ -211,6 +209,9 @@ async def on_ready():
     print ('guilds set')
     report.start()    # timer task for future use
     
+    
+
+
     print ('exiting on_ready now')
     exit
 
@@ -284,11 +285,13 @@ async def report():
             print ('\n\rchannel report ' + str(reportNumber) + '\n\r')
             reportNumber += 1
             for guildName, channels in channelsData.items():
-                print(f"Guild : [{guildName}]")
-                for channelName, members in channels.items():
-                    if members:  # check if members list is not empty
-                        print([channelName], [' '.join(members)], sep=' ')
-                print('\n\r')  # Print a new line between guilds
+            print(f"Guild : [{guildName}]")
+            for channelName, members in channels.items():
+                if members:  # check if members list is not empty
+                    members_str = ', '.join([f"[{member}]" for member in members])
+                    print([channelName], members_str, sep=' ')
+            print('\n\r')  # Print a new line between guilds
+
         channelsData.clear()
         printVC = False
 
