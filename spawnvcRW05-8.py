@@ -282,9 +282,10 @@ async def report():
     global reportNumber
     global doReport
 
-    if not lockReporting:
+     if not lockReporting:
         if doReport:
-            print ('\n\rchannel report ' + str(reportNumber) + '\n\r')
+            print('\r')
+            print ('#---------------#        channel report ' + str(reportNumber) + '        #---------------#'  + '\n\r')
             reportNumber += 1
 
     #        for guildName, guildChannels in channelsData.items():
@@ -297,18 +298,20 @@ async def report():
 
 
             for guild_name, guild_channels in channelsData.items():
-                print(f"\n\rGuild: [{guild_name}]")
+                print(f"\rGuild: [{guild_name}]")
                 for channel_name, channel_members in guild_channels.items():
                     if channel_members:
                         print(f"----------->Channel     {channel_name}")
                         for member in channel_members:
                             print(f"-------------->Member-->{member}")
                         print('\r')
+                print('\r')
 
                         
             channelsData.clear()
             doReport = False
         else:
+            print('\r')
             print ('No activity')
     else:
         print ('reporting locked')
