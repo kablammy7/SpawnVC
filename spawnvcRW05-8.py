@@ -303,7 +303,7 @@ async def report():
                         print(f"----------->Channel     {channel_name}")
                         for member in channel_members:
                             print(f"-------------->Member-->{member}")
-                        print()
+                        print('\n\r')
 
                         
             channelsData.clear()
