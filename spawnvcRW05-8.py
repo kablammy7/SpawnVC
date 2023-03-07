@@ -297,15 +297,15 @@ async def report():
     #                    print(f"  {channelName:<25}{memberList:>25}")
 
 
-            for guild_name, guild_channels in channelsData.items():
-                print(f"\rGuild: [{guild_name}]")
-                for channel_name, channel_members in guild_channels.items():
-                    if channel_members:
-                        print(f"----------->Channel     {channel_name}")
-                        for member in channel_members:
-                            print(f"-------------->Member-->{member}")
-                        print('\r')
-                print('\r')
+        for guild_name, guild_channels in channelsData.items():
+            print(f"\rGuild: [{guild_name}]")
+            for channel_name, channel_members in guild_channels.items():
+                if channel_members:
+                    print(f"----------->Channel     {channel_name}")
+                    for member in channel_members:
+                        print(f"-------------->Member-->{member}")
+                    print('\r')
+            print('\r')
 
                         
             channelsData.clear()
