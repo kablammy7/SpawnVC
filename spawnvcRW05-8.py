@@ -280,7 +280,7 @@ async def report():
     if not lockReporting:
         if doReport:
             print('\r')
-            print ('#---------------#        channel report ' + str(reportNumber) + '        #---------------#'  + '\n\r')
+            print ('#---------------#        channel report ' + str(reportNumber) + '        #---------------#')
             reportNumber += 1
 
     #        for guildName, guildChannels in channelsData.items():
