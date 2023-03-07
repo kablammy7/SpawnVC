@@ -348,7 +348,7 @@ def getNewChannelNumber (existingChannels):
 
 
 
-@tasks.loop(seconds = 3) # repeat in 1 minute
+@tasks.loop(seconds = 60) # repeat in 1 minute
 async def report():
     
     global reportNumber
