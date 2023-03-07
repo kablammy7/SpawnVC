@@ -1,5 +1,5 @@
 
-#spawnvcPC05-7.py
+#spawnvcRW05-7.py
 
 import os
 import threading
@@ -147,7 +147,7 @@ async def on_ready():
 
     print ('\n\rLogged in as {0.user}'.format(client))
     print(f'Connected to {len(client.guilds)} guilds')
-    print('executing version spawnvcPC05-7.py')
+    print('executing version spawnvcRW05-7.py')
 
     for guild in client.guilds:
         print ('Connected to server: {}'.format(guild.name))
