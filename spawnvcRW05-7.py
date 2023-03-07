@@ -147,6 +147,7 @@ async def on_ready():
 
     print ('\n\rLogged in as {0.user}'.format(client))
     print(f'Connected to {len(client.guilds)} guilds')
+    print('executing version spawnvcPC05-7.py')
 
     for guild in client.guilds:
         print ('Connected to server: {}'.format(guild.name))
@@ -330,7 +331,7 @@ async def on_voice_state_update(member, before, after):
     else: afterChannel=(f"{after.channel}")
 
     if beforeChannel == "MakeNewChannel": nlcr = ''
-    print (f"{nlcr}01 --> {truncate_datetime(datetime.now() + timedelta(hours=zuluDiff))} Guild [{guild.name}] [{memberDisplayName}] - [{memberName}] left channel [{beforeChannel}] joined channel {afterChannel}")
+    print (f"{nlcr}01 --> {truncate_datetime(datetime.now() + timedelta(hours=zuluDiff))} Guild [{guild.name}] [{memberDisplayName}] - [{memberName}] left channel [{beforeChannel}] joined channel [{afterChannel}]")
 
     # join MakeNewChannel
     if (after.channel is not None) and (after.channel.name == "MakeNewChannel"):
