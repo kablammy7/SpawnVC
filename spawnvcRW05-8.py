@@ -1,5 +1,5 @@
 
-#spawnvcRW05-7.py
+#spawnvcRW05-8.py
 
 import os
 import threading
@@ -14,12 +14,13 @@ import re
 #from reportlab.pdfgen import canvas
 
 
-# uncomment the 3 lines below for PC deploy
-# comment the 3 lines below for railway deploy
+# uncomment the 2 lines below for PC deploy
+# comment the 2 lines below for railway deploy
 #from dotenv import load_dotenv
 #load_dotenv('spammytest.env')
-#openai.api_key = os.getenv('TOKEN2')
 
+#uncomment for PC
+#openai.api_key = os.getenv('TOKEN2')
 #uncomment for railway
 #openai.api_key = os.environ['TOKEN2']
 
@@ -40,7 +41,7 @@ patternGetInt = r"^\D\D(\d{2})"
 channelsData = {}
 lockReporting = False
 reportNumber = 0
-printVC = False
+doReport = False
 #guildData = {}
 
 
@@ -143,11 +144,11 @@ async def latency(ctx):
 async def on_ready():
     
     global lockRorting
-    global printVC
+    global doReport
 
     print ('\n\rLogged in as {0.user}'.format(client))
     print(f'Connected to {len(client.guilds)} guilds')
-    print('executing version spawnvcRW05-7.py')
+    print('executing version spawnvcPC05-7.py')
 
     for guild in client.guilds:
         print ('Connected to server: {}'.format(guild.name))
@@ -197,7 +198,7 @@ async def on_ready():
                         await c.edit(position=target_index+i+1)
 
         message = ('adjustments made = 'f"{adjustmentsMade} on {guild.name} server")
-        print ('\n\rfinished cleaning up ' + message)
+        print ('finished cleaning up ' + message)
                     
         member = client.guilds[0].get_member(425437217612103684)
         print ('sending message')
@@ -234,7 +235,7 @@ async def on_ready():
 
 
 
-def truncate_datetime (dt):
+def truncateDatetime (dt):
 
     dt_str = str(dt)
     period_index = dt_str.rfind(".")
@@ -279,23 +280,27 @@ def getNewChannelNumber (existingChannels):
 async def report():
     
     global reportNumber
-    global printVC
+    global doReport
 
     if not lockReporting:
-        if printVC:
+        if doReport:
             print ('\n\rchannel report ' + str(reportNumber) + '\n\r')
             reportNumber += 1
-            for guildName, channels in channelsData.items():
-                print(f"Guild : [{guildName}]")
-                for channelName, members in channels.items():
-                    if members:  # check if members list is not empty
-                        members_str = ', '.join([f"[{member}]" for member in members])
-                        print([channelName], members_str, sep=' ')
-                print('\n\r')  # Print a new line between guilds
 
+            for guild_name, guild_channels in channelsData.items():
+                print(f"\n\rGuild: [{guild_name}]")
+                for channel_name, channel_members in guild_channels.items():
+                    if channel_members:
+                        member_list = ", ".join(channel_members)
+                        channel_name += ' ->'
+                        print(f"  {channel_name:<25}{member_list:>25}")
+                        
             channelsData.clear()
-            printVC = False
-
+            doReport = False
+        else:
+            print ('No activity')
+    else:
+        print ('reporting locked')
 
 
 
@@ -313,8 +318,9 @@ async def report():
 @client.event
 async def on_voice_state_update(member, before, after):
     
-    global printVC
+    global doReport
     global lockReporting
+    showMoves = False
 
     guild = member.guild
     nlcr = '\n\r'
@@ -330,54 +336,71 @@ async def on_voice_state_update(member, before, after):
         afterChannel = 'None'
     else: afterChannel=(f"{after.channel}")
 
-    if beforeChannel == "MakeNewChannel": nlcr = ''
-    print (f"{nlcr}01 --> {truncate_datetime(datetime.now() + timedelta(hours=zuluDiff))} Guild [{guild.name}] [{memberDisplayName}] - [{memberName}] left channel [{beforeChannel}] joined channel [{afterChannel}]")
+    if (beforeChannel != afterChannel):
+        if beforeChannel == "MakeNewChannel": nlcr = ''
+        if showMoves:
+            print (f"{nlcr}01 --> {truncateDatetime(datetime.now() + timedelta(hours=zuluDiff))} Guild [{guild.name}] [{memberDisplayName}] - [{memberName}] left channel [{beforeChannel}] joined channel [{afterChannel}]")
 
-    # join MakeNewChannel
-    if (after.channel is not None) and (after.channel.name == "MakeNewChannel"):
-        category = after.channel.category
-        existingChannels = [c for c in after.channel.guild.voice_channels if c.name.startswith("VC")]
-        newChannelNumber = getNewChannelNumber(existingChannels)
-        newChannelName = f"VC{newChannelNumber:02} {member.display_name.split('#')[0]}"
+        # join MakeNewChannel
+        if (after.channel is not None) and (after.channel.name == "MakeNewChannel"):
+            category = after.channel.category
+            existingChannels = [c for c in after.channel.guild.voice_channels if c.name.startswith("VC")]
+            newChannelNumber = getNewChannelNumber(existingChannels)
+            newChannelName = f"VC{newChannelNumber:02} {member.display_name.split('#')[0]}"
 
-        channel = await category.create_voice_channel(newChannelName)
-        await member.move_to(channel)
-        # sort the voice channels
-        target_channel = discord.utils.get(guild.voice_channels, name="MakeNewChannel")
-        all_channels = guild.voice_channels
-        target_index = all_channels.index(target_channel)
-        vc_channels = sorted([c for c in all_channels if c.name.startswith("VC")], key=lambda c: c.name)
-        for i, c in enumerate(vc_channels):
-            await c.edit(position=target_index+i+1)
+            channel = await category.create_voice_channel(newChannelName)
+            await member.move_to(channel)
+            # sort the voice channels
+            target_channel = discord.utils.get(guild.voice_channels, name="MakeNewChannel")
+            all_channels = guild.voice_channels
+            target_index = all_channels.index(target_channel)
+            vc_channels = sorted([c for c in all_channels if c.name.startswith("VC")], key=lambda c: c.name)
+            for i, c in enumerate(vc_channels):
+                await c.edit(position=target_index+i+1)
     
-    # channel vacated
-    if (before.channel is not None) and ('VC' in str({before.channel})):
-        #memberName = f"VC[int(re.match(patternGetInt, channel.name).group(1))] {member.display_name.split('#')[0]}"
-        if len(before.channel.members) == 0:
-            await before.channel.delete()
-            print (f"02 --> {truncate_datetime(datetime.now() + timedelta(hours=zuluDiff))} Guild [{guild.name}] [{memberDisplayName}] - [{memberName}] vacated channel [{before.channel}] deleted") #moved to {after.channel}")
-
-            
-        else:
-            beforeChannel = f"{before.channel}"
-            if((beforeChannel) != (f"{after.channel}")):
-                newName = f"VC{(re.match(patternGetInt, str(beforeChannel)).group(1))} {before.channel.members[0].display_name.split('#')[0]}"
-                if (f"{before.channel}") != newName:
-                    await before.channel.edit(name=newName)
-                    print (f"03 --> {truncate_datetime(datetime.now() + timedelta(hours=zuluDiff))} Guild [{guild.name}] [{memberDisplayName}] - [{memberName}] before channel [{beforeChannel}] renamed to [{newName}]")
-                else: (f"04 --> {truncate_datetime(datetime.now() + timedelta(hours=zuluDiff))} Guild [{guild.name}] [{memberDisplayName}] - [{memberName}] before channel [{beforeChannel}] moved to [{after.channel}]")
+        # channel vacated
+        if (before.channel is not None) and ('VC' in str({before.channel})):
+            if len(before.channel.members) == 0:
+                await before.channel.delete()
+                if showMoves:
+                    print (f"02 --> {truncateDatetime(datetime.now() + timedelta(hours=zuluDiff))} Guild [{guild.name}] [{memberDisplayName}] - [{memberName}] vacated channel [{before.channel}] deleted") #moved to {after.channel}")
+            else:
+                beforeChannel = f"{before.channel}"
+                if((beforeChannel) != (f"{after.channel}")):
+                    newName = f"VC{(re.match(patternGetInt, str(beforeChannel)).group(1))} {before.channel.members[0].display_name.split('#')[0]}"
+                    if (f"{before.channel}") != newName:
+                        await before.channel.edit(name=newName)
+                        if showMoves:
+                            print (f"03 --> {truncateDatetime(datetime.now() + timedelta(hours=zuluDiff))} Guild [{guild.name}] [{memberDisplayName}] - [{memberName}] before channel [{beforeChannel}] renamed to [{newName}]")
+                    elif showMoves:
+                        (f"04 --> {truncateDatetime(datetime.now() + timedelta(hours=zuluDiff))} Guild [{guild.name}] [{memberDisplayName}] - [{memberName}] before channel [{beforeChannel}] moved to [{after.channel}]")
  
 
 
-    lockReporting = True
+        lockReporting = True
     
-    for guild in client.guilds:
-        channelsData[guild.name] = {}
-        for channel in guild.voice_channels:
-            channelsData[guild.name][channel.name] = [member.name for member in channel.members]
+        #for guild in client.guilds:
+        #    channelsData[guild.name] = {}
+        #    for channel in guild.voice_channels:
+        #        channelsData[guild.name][channel.name] = [member.name for member in channel.members]
 
-    lockReporting = False
-    printVC = True
+
+        for guild in client.guilds:
+            channelsData[guild.name] = {}
+            for channel in guild.voice_channels:
+                members = []
+                for member in channel.members:
+                    members.append(f"{member.name} ({member.display_name})")
+                channelsData[guild.name][channel.name] = members
+
+
+
+
+
+
+
+        lockReporting = False
+        doReport = True
 
     
 
@@ -385,10 +408,10 @@ async def on_voice_state_update(member, before, after):
 
 
 # PC deploy
-#client.run(os.getenv('TOKEN'))  
+client.run(os.getenv('TOKEN'))  
 
 #railway deploy 
-client.run(os.environ['TOKEN'])
+#client.run(os.environ['TOKEN'])
 
 # https://discord.com/api/oauth2/authorize?client_id=1079357107771551814&permissions=16787472&scope=bot%20applications.commands
 
