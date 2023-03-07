@@ -285,12 +285,12 @@ async def report():
             print ('\n\rchannel report ' + str(reportNumber) + '\n\r')
             reportNumber += 1
             for guildName, channels in channelsData.items():
-            print(f"Guild : [{guildName}]")
-            for channelName, members in channels.items():
-                if members:  # check if members list is not empty
-                    members_str = ', '.join([f"[{member}]" for member in members])
-                    print([channelName], members_str, sep=' ')
-            print('\n\r')  # Print a new line between guilds
+                print(f"Guild : [{guildName}]")
+                for channelName, members in channels.items():
+                    if members:  # check if members list is not empty
+                        members_str = ', '.join([f"[{member}]" for member in members])
+                        print([channelName], members_str, sep=' ')
+                print('\n\r')  # Print a new line between guilds
 
         channelsData.clear()
         printVC = False
