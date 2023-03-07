@@ -10,7 +10,7 @@ import discord
 from discord.ext import commands
 from discord.ext import commands, tasks
 import re
-import openai
+#import openai
 #from reportlab.pdfgen import canvas
 
 
