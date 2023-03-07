@@ -300,7 +300,6 @@ async def report():
                         for member in channel_members:
                             print(f"-------------->Member-->{member}")
                         print('\r')
-                print('\r')
 
                         
             channelsData.clear()
