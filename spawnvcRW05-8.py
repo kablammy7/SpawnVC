@@ -42,7 +42,31 @@ channelsData = {}
 lockReporting = False
 reportNumber = 0
 doReport = False
+noActivityMinutes = 0
 #guildData = {}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -145,10 +169,11 @@ async def on_ready():
     
     global lockRorting
     global doReport
+    global noActivityMinutes
 
     print ('\n\rLogged in as {0.user}'.format(client))
     print(f'Connected to {len(client.guilds)} guilds')
-    print('executing version spawnvcPC05-8.py')
+    print('executing version spawnvcPC05-9.py')
 
     for guild in client.guilds:
         print ('Connected to server: {}'.format(guild.name))
@@ -230,6 +255,53 @@ async def on_ready():
 
 
 
+    @client.event
+    async def on_message(message):
+        print(f'{message.author}: {message.content}')
+
+
+
+
+
+
+
+
+
+
+
+        
+# Define the URL of the web server where the log file will be stored
+log_url = "http://kablammy.me/bot.log"
+
+# Define a function that sends a message to both the standard output and the log file
+def log(msg):
+    # Write the message to the standard output
+    print(msg)
+
+    # Write the message to the log file on the web server
+    requests.post(log_url, data=msg.encode())
+
+# Example usage of the log function
+@client.event
+async def on_message(message):
+    print(' got message')
+    log(f"Received message: {message.content}")
+
+    # Do other processing here
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ##################        functions           ###########################
 
@@ -271,11 +343,17 @@ def getNewChannelNumber (existingChannels):
 
 
 
-@tasks.loop(seconds = 60) # repeat in 1 minute
+
+
+
+
+
+@tasks.loop(seconds = 3) # repeat in 1 minute
 async def report():
     
     global reportNumber
     global doReport
+    global noActivityMinutes
 
     if not lockReporting:
         if doReport:
@@ -283,17 +361,8 @@ async def report():
             print ('#---------------#        channel report ' + str(reportNumber) + '        #---------------#')
             reportNumber += 1
 
-    #        for guildName, guildChannels in channelsData.items():
-    #            print(f"\n\rGuild: [{guildName}]")
-    #            for channelName, channelMembers in guildChannels.items():
-    #                if channelMembers:
-    #                    memberList = ", ".join(channelMembers)
-    #                    channelName += ' ->'
-    #                    print(f"  {channelName:<25}{memberList:>25}")
-
-
             for guild_name, guild_channels in channelsData.items():
-                print(f"\rGuild: [{guild_name}]")
+                print(f"\n\rGuild: [{guild_name}]")
                 for channel_name, channel_members in guild_channels.items():
                     if channel_members:
                         print(f"----------->Channel     {channel_name}")
@@ -304,16 +373,13 @@ async def report():
                         
             channelsData.clear()
             doReport = False
+            noActivityMinutes = 0
         else:
             print('\r')
-            print ('No activity')
+            print ('No activity for ' + str(noActivityMinutes) + ' minutes')
+            noActivityMinutes += 1
     else:
         print ('reporting locked')
-
-
-
-
-
 
 
 
@@ -405,13 +471,7 @@ async def on_voice_state_update(member, before, after):
                 for member in channel.members:
                     members.append(f"{member.name} ({member.display_name})")
                 channelsData[guild.name][channel.name] = members
-
-
-
-
-
-
-
+                
         lockReporting = False
         doReport = True
 
