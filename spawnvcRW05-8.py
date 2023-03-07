@@ -291,9 +291,9 @@ async def report():
                 print(f"\n\rGuild: [{guild_name}]")
                 for channel_name, channel_members in guild_channels.items():
                     if channel_members:
-                        member_list = ", ".join(channel_members)
+                        member_list = "\n\r".join(channel_members)
                         channel_name += ' ->'
-                        print(f"  {channel_name:<25}{member_list:>25})
+                        print(f"  {channel_name:<25}{member_list:>25}")
                         
             channelsData.clear()
             doReport = False
