@@ -302,7 +302,7 @@ async def report():
                     if channel_members:
                         print(f"       Channel     {channel_name}")
                         for member in channel_members:
-                            print(f"       Member      {member}")
+                            print(f"       Member           {member}")
                         print()
 
                         
