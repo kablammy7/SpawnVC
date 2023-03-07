@@ -148,7 +148,7 @@ async def on_ready():
 
     print ('\n\rLogged in as {0.user}'.format(client))
     print(f'Connected to {len(client.guilds)} guilds')
-    print('executing version spawnvcPC05-7.py')
+    print('executing version spawnvcPC05-8.py')
 
     for guild in client.guilds:
         print ('Connected to server: {}'.format(guild.name))
@@ -291,9 +291,9 @@ async def report():
                 print(f"\n\rGuild: [{guild_name}]")
                 for channel_name, channel_members in guild_channels.items():
                     if channel_members:
-                        member_list = ", ".join(channel_members)
+                        member_list = "\r\r ".join(channel_members)
                         channel_name += ' ->'
-                        print(f"  {channel_name:<25}{member_list:>25}\n\r")
+                        print(f"  {channel_name:<25}{member_list:>25})
                         
             channelsData.clear()
             doReport = False
