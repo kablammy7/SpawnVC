@@ -300,9 +300,9 @@ async def report():
                 print(f"\n\rGuild: [{guild_name}]")
                 for channel_name, channel_members in guild_channels.items():
                     if channel_members:
-                        print(f"       Channel     {channel_name}")
+                        print(f"        Channel     {channel_name}")
                         for member in channel_members:
-                            print(f"       Member           {member}")
+                            print(f"        Member           {member}")
                         print()
 
                         
