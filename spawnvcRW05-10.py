@@ -481,10 +481,10 @@ async def on_voice_state_update(member, before, after):
 
 
 # PC deploy
-client.run(os.getenv('TOKEN'))  
+#client.run(os.getenv('TOKEN'))  
 
 #railway deploy 
-#client.run(os.environ['TOKEN'])
+client.run(os.environ['TOKEN'])
 
 # https://discord.com/api/oauth2/authorize?client_id=1079357107771551814&permissions=16787472&scope=bot%20applications.commands
 
