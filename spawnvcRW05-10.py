@@ -11,8 +11,8 @@ from discord.ext import commands
 from discord.ext import commands, tasks
 import re
 
-#import sys
-#import requests
+import sys
+import requests
 
 
 #import openai
