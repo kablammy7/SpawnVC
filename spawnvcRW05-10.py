@@ -39,7 +39,7 @@ client = commands.Bot(command_prefix='?', intents=intents)
 zuluDiff = -5
 patternGetInt = r"^\D\D(\d{2})"
 channelsData = {}
-lockReporting = False
+lockReporting = True
 reportNumber = 0
 doReport = True
 noActivityMinutes = 0
@@ -256,15 +256,15 @@ async def on_ready():
             await category.create_voice_channel(makeNewChannelName)
             time.sleep(span)
 
-        ##Remove empty VC channels
-        #for channel in guild.voice_channels:
-        #    if channel.name.startswith(channelPrefix) and len(channel.members) == 0:
-        #        if  discord.utils.get(guild.voice_channels, name=channel.name):
-        #            await channel.delete()
-        #            time.sleep(span)
-        #            adjustmentsMade = True
-        #            print (f"01 --> Guild [{guild.name}] deleted [{channel.name}]")
-        #        else: print ('01 --> A CHANNEL IN LIST BUT NOT PRESENT')
+        #Remove empty VC channels
+        for channel in guild.voice_channels:
+            if channel.name.startswith(channelPrefix) and len(channel.members) == 0:
+                if  discord.utils.get(guild.voice_channels, name=channel.name):
+                    await channel.delete()
+                    time.sleep(span)
+                    adjustmentsMade = True
+                    print (f"06 --> Guild [{guild.name}] deleted [{channel.name}]")
+                else: print ('06 --> A CHANNEL IN LIST BUT NOT PRESENT')
             
 
         ## move members out of MakeNewChannel channel   
@@ -548,7 +548,14 @@ async def on_voice_state_update(member, before, after):
                     beforeChannel = f"{before.channel}"
                     if((beforeChannel) != (f"{after.channel}")):
                         newName = f"{channelPrefix}{(re.match(patternGetInt, str(beforeChannel)).group(1))} {before.channel.members[0].display_name.split('#')[0]}"
-                        if (f"{before.channel}") != newName:
+                        if before.channel != newName:
+                            if len(before.channel.members) == 0:
+                                await before.channel.delete()
+                                time.sleep(span)
+                                adjustmentsMade = True
+                                print (f"07 --> Guild [{guild.name}] deleted [{channel.name}]")
+                            else: print ('07 --> A CHANNEL IN LIST BUT NOT PRESENT')
+
                             await before.channel.edit(name=newName)
                             time.sleep(span)
                             if showMoves:
