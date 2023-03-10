@@ -578,23 +578,24 @@ async def on_voice_state_update(member, before, after):
                 MakeNewChannelName = discord.utils.get(voiceChannels, name=makeNewChannelName)
                 prefixedChannels = [c for c in voiceChannels if c.name.startswith(channelPrefix)]
                 #prefixedChannelNames = [c.name for c in prefixedChannels]
-                MakeNewChannelPosition = MakeNewChannelName.position
+                if MakeNewChannelName is not None: 
+                    MakeNewChannelPosition = MakeNewChannelName.position
             
        
-                verifiedSorted = True
-                print (f'\n\rsort run on voice state update number = {runNumber}')
-                runNumber += 1
+                    verifiedSorted = True
+                    print (f'\n\rsort run on voice state update number = {runNumber}')
+                    runNumber += 1
 
-                sortedVoiceChannels = sorted(prefixedChannels, key=lambda x: x.name)
-                for i, voiceChannel in enumerate(sortedVoiceChannels):
-                    expectedPosition = MakeNewChannelPosition + i + 1
-                    if voiceChannel.position != expectedPosition:
-                        await voiceChannel.edit(position=expectedPosition)
-                        time.sleep(span)
-                        adjustmentsMade = True
-                        verifiedSorted = False
+                    sortedVoiceChannels = sorted(prefixedChannels, key=lambda x: x.name)
+                    for i, voiceChannel in enumerate(sortedVoiceChannels):
+                        expectedPosition = MakeNewChannelPosition + i + 1
+                        if voiceChannel.position != expectedPosition:
+                            await voiceChannel.edit(position=expectedPosition)
+                            time.sleep(span)
+                            adjustmentsMade = True
+                            verifiedSorted = False
 
-                        print(f"Moved '{voiceChannel.name}' in position {voiceChannel.position} to position {expectedPosition}.")
+                            print(f"Moved '{voiceChannel.name}' in position {voiceChannel.position} to position {expectedPosition}.")
  
                             
    
