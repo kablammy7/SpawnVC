@@ -564,29 +564,29 @@ async def on_voice_state_update(member, before, after):
                             (f"04 --> {truncateDatetime(datetime.now() + timedelta(hours=zuluDiff))} Guild [{guild.name}] [{memberDisplayName}] - [{memberName}] before channel [{beforeChannel}] moved to [{after.channel}]")
             
             
-            ##Remove empty VC channels            
-            #voiceChannels = guild.voice_channels
-            #prefixedChannels = [c for c in voiceChannels if c.name.startswith(channelPrefix)]
+            #Remove empty VC channels            
+            voiceChannels = guild.voice_channels
+            prefixedChannels = [c for c in voiceChannels if c.name.startswith(channelPrefix)]
             
-            #for channel in prefixedChannels:
-            #    if len(channel.members) == 0:
-            #        await channel.delete()
-            #        time.sleep(span)
-            #        adjustmentsMade = True
-            #        print (f"02 --> Guild [{guild.name}] deleted [{channel.name}]")
-            #    else: print ('02 --> A CHANNEL IN LIST BUT NOT PRESENT')
+            for channel in prefixedChannels:
+                if len(channel.members) == 0:
+                    await channel.delete()
+                    time.sleep(span)
+                    adjustmentsMade = True
+                    print (f"02 --> Guild [{guild.name}] deleted [{channel.name}]")
+                else: print ('02 --> A CHANNEL IN LIST BUT NOT PRESENT')
           
                             
-            ## new sort
-            #verifiedSorted = False
+            # new sort
+            verifiedSorted = False
             
-            #while not verifiedSorted:
-            #    voiceChannels = guild.voice_channels
-            #    MakeNewChannelName = discord.utils.get(voiceChannels, name=makeNewChannelName)
-            #    prefixedChannels = [c for c in voiceChannels if c.name.startswith(channelPrefix)]
-            #    #prefixedChannelNames = [c.name for c in prefixedChannels]
-            #    if MakeNewChannelName is not None: 
-            #        MakeNewChannelPosition = MakeNewChannelName.position
+            while not verifiedSorted:
+                voiceChannels = guild.voice_channels
+                MakeNewChannelName = discord.utils.get(voiceChannels, name=makeNewChannelName)
+                prefixedChannels = [c for c in voiceChannels if c.name.startswith(channelPrefix)]
+                #prefixedChannelNames = [c.name for c in prefixedChannels]
+                if MakeNewChannelName is not None: 
+                    MakeNewChannelPosition = MakeNewChannelName.position
             
        
                     verifiedSorted = True
