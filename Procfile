@@ -1,1 +1,1 @@
-web: python spawnvcRW06-05.py
+web: python spawnvc06-05.py
