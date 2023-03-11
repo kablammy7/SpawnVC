@@ -34,8 +34,6 @@ client = commands.Bot(command_prefix='?', intents=intents)
 
 
 
-
-
 zuluDiff = -5
 patternGetInt = r"^\D\D(\d{2})"
 channelsData = {}
