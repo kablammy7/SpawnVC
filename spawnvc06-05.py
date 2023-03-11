@@ -16,8 +16,8 @@ import re#import openai
 
 # uncomment the 2 lines below for PC deploy
 # comment the 2 lines below for railway deploy
-#from dotenv import load_dotenv
-#load_dotenv('spammytest.env')
+from dotenv import load_dotenv
+load_dotenv('spawnvc.env')
 
 #uncomment for PC
 #openai.api_key = os.getenv('TOKEN2')
@@ -232,7 +232,7 @@ async def on_ready():
 
     print ('\n\rLogged in as {0.user}'.format(client))
     print(f'Connected to {len(client.guilds)} guilds')
-    print('executing version spawnvcRW06-05.py')
+    print('executing version spawnvcRW06-06.py')
     
     
 
