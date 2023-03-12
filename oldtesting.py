@@ -1,5 +1,5 @@
 #testing.py
-#spawnvcRW06-08-test.py
+#spawnvcRW06-07-.py
 
 import os
 import threading
@@ -17,7 +17,7 @@ import re#import openai
 # uncomment the 2 lines below for PC deploy
 # comment the 2 lines below for railway deploy
 from dotenv import load_dotenv
-load_dotenv('.env\kablammytest.env')
+load_dotenv('kablammytest.env')
 
 #uncomment for PC
 #openai.api_key = os.getenv('TOKEN2')
@@ -45,7 +45,6 @@ makeNewChannelNames = ['MakeNewSerious', 'MakeNewCasual']
 channelPrefixes = ['SC', 'CC']
 span = 1
 voiceStateUpdate = 0
-showMoves = True
 
 
 
@@ -283,10 +282,10 @@ async def on_ready():
             
         while not verifiedSorted:
             voiceChannels = guild.voice_channels
-            newChannel = discord.utils.get(voiceChannels, name=makeNewChannelName)
+            MakeNewChannelName = discord.utils.get(voiceChannels, name=makeNewChannelName)
             prefixedChannels = [c for c in voiceChannels if c.name.startswith(channelPrefix)]
             #prefixedChannelNames = [c.name for c in prefixedChannels]
-            newChannelPosition = newChannel.position
+            MakeNewChannelPosition = MakeNewChannelName.position
             
        
             verifiedSorted = True
@@ -295,25 +294,7 @@ async def on_ready():
 
             sortedVoiceChannels = sorted(prefixedChannels, key=lambda x: x.name)
             for i, voiceChannel in enumerate(sortedVoiceChannels):
-
-
-                # rename channels
-                if len (voiceChannel.members) > 0:
-                    newName = f"{channelPrefix}{(re.match(patternGetInt, str(voiceChannel)).group(1))} {voiceChannel.members[0].display_name.split('#')[0]}"
-                    if voiceChannel.name != newName:
-                        wrongChannelName = voiceChannel.name
-                        await voiceChannel.edit(name=newName)
-                        time.sleep(span)
-                        if showMoves:
-                            print (f"08 --> {truncateDatetime(datetime.now() + timedelta(hours=zuluDiff))} Guild [{guild.name}] [{wrongChannelName}] renamed to [{newName}]")
-                    else:
-                        await voiceChannel.delete()
-                        print (f"09 --> {truncateDatetime(datetime.now() + timedelta(hours=zuluDiff))} Guild [{guild.name}] [{wrongChannelName}] deleted")
-                        time.sleep(span)
-                        continue
-
-
-                expectedPosition = newChannelPosition + i + 1
+                expectedPosition = MakeNewChannelPosition + i + 1
                 if voiceChannel.position != expectedPosition:
                     await voiceChannel.edit(position=expectedPosition)
                     time.sleep(span)
@@ -503,7 +484,7 @@ async def on_voice_state_update(member, before, after):
     
     global doReport
     global lockReporting
-    global showMoves
+    showMoves = True
     global makeNewChannelNames
     global channelPrefixes
     global span
@@ -554,7 +535,7 @@ async def on_voice_state_update(member, before, after):
                 category = after.channel.category
                 existingChannels = [c for c in after.channel.guild.voice_channels if c.name.startswith(channelPrefix)]
                 newChannelNumber = getNewChannelNumber(existingChannels)
-                newChannelName = f"{channelPrefix}{newChannelNumber:02} {memberDisplayName}"
+                newChannelName = f"{channelPrefix}{newChannelNumber:02} {member.display_name.split('#')[0]}"
 
                 newChannel = await category.create_voice_channel(newChannelName)
                 time.sleep(span)
@@ -562,7 +543,6 @@ async def on_voice_state_update(member, before, after):
                 time.sleep(span)
                 madeNewChannel = True
     
-
             # prefixed named channel vacated
             if channelPrefix in beforeChannelName:
                 if len(before.channel.members) == 0:
@@ -573,12 +553,12 @@ async def on_voice_state_update(member, before, after):
                 else:
                     if beforeChannel != afterChannel:
                         newName = f"{channelPrefix}{(re.match(patternGetInt, str(beforeChannel)).group(1))} {before.channel.members[0].display_name.split('#')[0]}"
-                        if beforeChannelName != newName: # ( was != ( change it back if uncommenting the 4 lines below ))
+                        if beforeChannelName != newName:
                             await before.channel.edit(name=newName)
                             time.sleep(span)
                             if showMoves:
                                 print (f"03 --> {truncateDatetime(datetime.now() + timedelta(hours=zuluDiff))} Guild [{guild.name}] [{memberDisplayName}] - [{memberName}] before channel [{beforeChannel}] renamed to [{newName}]")
-                        elif showMoves:  # was elif - change back if uncommenting the 4 lines above
+                        elif showMoves:
                             (f"04 --> {truncateDatetime(datetime.now() + timedelta(hours=zuluDiff))} Guild [{guild.name}] [{memberDisplayName}] - [{memberName}] before channel [{beforeChannel}] moved to [{after.channel}]")
                 
             #print ('exiting on voice channel update now'  + str(voiceStateUpdate - 1))
@@ -604,10 +584,10 @@ async def on_voice_state_update(member, before, after):
             
         while not verifiedSorted:
             voiceChannels = guild.voice_channels
-            newChannel = discord.utils.get(voiceChannels, name=makeNewChannelName)
+            makeNewChannel = discord.utils.get(voiceChannels, name=makeNewChannelName)
             prefixedChannels = [c for c in voiceChannels if c.name.startswith(channelPrefix)]
             #prefixedChannelNames = [c.name for c in prefixedChannels]
-            newChannelPosition = newChannel.position
+            makeNewChannelPosition = makeNewChannel.position
        
             verifiedSorted = True
             print (f'                                   sort run on voice state update number = {sortRunNumber}')
@@ -615,24 +595,8 @@ async def on_voice_state_update(member, before, after):
 
             sortedVoiceChannels = sorted(prefixedChannels, key=lambda x: x.name)
             for i, voiceChannel in enumerate(sortedVoiceChannels):
-
-                # rename channels
-                if len (voiceChannel.members) > 0:
-                    newName = f"{channelPrefix}{(re.match(patternGetInt, str(voiceChannel)).group(1))} {voiceChannel.members[0].display_name.split('#')[0]}"
-                    if voiceChannel.name != newName:
-                        wrongChannelName = voiceChannel.name
-                        await voiceChannel.edit(name=newName)
-                        time.sleep(span)
-                        if showMoves:
-                            print (f"10 --> {truncateDatetime(datetime.now() + timedelta(hours=zuluDiff))} Guild [{guild.name}] [{wrongChannelName}] renamed to [{newName}]")
-                    else:
-                        await voiceChannel.delete()
-                        time.sleep(span)
-                        print (f"11 --> {truncateDatetime(datetime.now() + timedelta(hours=zuluDiff))} Guild [{guild.name}] [{wrongChannelName}] deleted")
-                        continue
-
                 voiceChannelPosition = voiceChannel.position
-                expectedPosition = newChannelPosition + i + 1
+                expectedPosition = makeNewChannelPosition + i + 1
                 print (f'vcp = {voiceChannelPosition} exp = {expectedPosition}')
                 if voiceChannelPosition != expectedPosition:
                     await voiceChannel.edit(position=expectedPosition)
