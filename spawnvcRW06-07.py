@@ -11,14 +11,13 @@ import discord
 from discord.ext import commands
 from discord.ext import commands, tasks
 import re
-from dotenv import load_dotenv
 #import openai
 #from reportlab.pdfgen import canvas
 
 
 # uncomment the 1 lines below for PC deploy
 # comment the 1 lines below for railway deploy
-
+#from dotenv import load_dotenv
 #load_dotenv('kablammytest.env')
 
 #uncomment for PC
@@ -646,8 +645,7 @@ async def on_voice_state_update(member, before, after):
 #client.run(os.getenv('TOKEN'))  
 
 #railway deploy 
-load_dotenv()
-client.run(os.environ['TOKEN'])
+#client.run(os.environ['TOKEN'])
 
 #railway deploy 
 #load_dotenv()
