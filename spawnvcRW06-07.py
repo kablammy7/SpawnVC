@@ -10,13 +10,15 @@ from xml.dom.expatbuilder import makeBuilder
 import discord
 from discord.ext import commands
 from discord.ext import commands, tasks
-import re#import openai
+import re
+from dotenv import load_dotenv
+#import openai
 #from reportlab.pdfgen import canvas
 
 
-# uncomment the 2 lines below for PC deploy
-# comment the 2 lines below for railway deploy
-#from dotenv import load_dotenv
+# uncomment the 1 lines below for PC deploy
+# comment the 1 lines below for railway deploy
+
 #load_dotenv('kablammytest.env')
 
 #uncomment for PC
@@ -641,10 +643,18 @@ async def on_voice_state_update(member, before, after):
 
 
 # PC deploy
-client.run(os.getenv('TOKEN'))  
+#client.run(os.getenv('TOKEN'))  
 
 #railway deploy 
-#client.run(os.environ['TOKEN'])
+load_dotenv()
+client.run(os.environ['TOKEN'])
+
+#railway deploy 
+#load_dotenv()
+#TOKEN = os.getenv('TOKEN')
+#client.run(TOKEN)
+
+
 
 # https://discord.com/api/oauth2/authorize?client_id=1079357107771551814&permissions=16787472&scope=bot%20applications.commands
 
