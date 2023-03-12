@@ -16,8 +16,8 @@ import re#import openai
 
 # uncomment the 2 lines below for PC deploy
 # comment the 2 lines below for railway deploy
-from dotenv import load_dotenv
-load_dotenv('kablammytest.env')
+#from dotenv import load_dotenv
+#load_dotenv('kablammytest.env')
 
 #uncomment for PC
 #openai.api_key = os.getenv('TOKEN2')
