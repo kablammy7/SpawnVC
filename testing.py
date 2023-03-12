@@ -1,5 +1,5 @@
-
-#spawnvcRW06-06.py
+#testing.py
+#spawnvcRW06-07-.py
 
 import os
 import threading
@@ -17,7 +17,7 @@ import re#import openai
 # uncomment the 2 lines below for PC deploy
 # comment the 2 lines below for railway deploy
 from dotenv import load_dotenv
-load_dotenv('spawnvc.env')
+load_dotenv('kablammytest.env')
 
 #uncomment for PC
 #openai.api_key = os.getenv('TOKEN2')
@@ -44,12 +44,7 @@ noActivityMinutes = 0
 makeNewChannelNames = ['MakeNewSerious', 'MakeNewCasual']
 channelPrefixes = ['SC', 'CC']
 span = 1
-runNumber = 1
-
-
-
-
-
+voiceStateUpdate = 0
 
 
 
@@ -226,19 +221,18 @@ async def on_ready():
     global makeNewChannelNames
     global channelPrefixes
     global span
-    global runNumber
 
     adjustmentsMade = False
 
     print ('\n\rLogged in as {0.user}'.format(client))
-    print(f'Connected to {len(client.guilds)} guilds')
-    print('executing version spawnvcRW06-06.py')
-    
-    
+    print (f'Connected to {len(client.guilds)} guilds')
+    print ('executing version spawnvcRW06-07.py')
+    print ('executing version testing.py') # spawnvcRW06-06.py')
+    print ('running on desktop')
 
 
     for guild in client.guilds:
-        print ('\n\r' f"Guild = [{guild.name}]")
+        print ('\n\r'                       f"Guild = [{guild.name}]")
         channelPrefixIndex = 0;
 
     for makeNewChannelName in makeNewChannelNames:
@@ -261,8 +255,8 @@ async def on_ready():
                     await channel.delete()
                     time.sleep(span)
                     adjustmentsMade = True
-                    print (f"06 --> Guild [{guild.name}] deleted [{channel.name}]")
-                else: print ('06 --> A CHANNEL IN LIST BUT NOT PRESENT')
+                    print (f"05 --> Guild [{guild.name}] deleted [{channel.name}]")
+                else: print ('05 --> A CHANNEL IN LIST BUT NOT PRESENT')
             
 
         ## move members out of MakeNewChannel channel   
@@ -282,8 +276,9 @@ async def on_ready():
                     adjustmentsMade = True
                     print (f"Guild [{guild.name}] channel [{newChannelName}] created moved [{mncMember.name}]")
                         
-        # new sort
+         # new sort
         verifiedSorted = False
+        sortRunNumber = 1
             
         while not verifiedSorted:
             voiceChannels = guild.voice_channels
@@ -294,8 +289,8 @@ async def on_ready():
             
        
             verifiedSorted = True
-            print (f'\n\rsort run on voice state update number = {runNumber}')
-            runNumber += 1
+            print (f'                                   sort run on ready number = {sortRunNumber}')
+            sortRunNumber += 1
 
             sortedVoiceChannels = sorted(prefixedChannels, key=lambda x: x.name)
             for i, voiceChannel in enumerate(sortedVoiceChannels):
@@ -307,10 +302,12 @@ async def on_ready():
                     verifiedSorted = False
 
                     print(f"Moved '{voiceChannel.name}' in position {voiceChannel.position} to position {expectedPosition}.")
- 
+            message = ('adjustments made = 'f"{adjustmentsMade} on {guild.name} server for {makeNewChannelName}")
+        print ('sort ended')
 
-    message = ('adjustments made = 'f"{adjustmentsMade} on {guild.name} server for {makeNewChannelName}")
-    print ('finished cleaning up ' + message)
+    
+    message += '\n\rRunning on desktop'
+    print ('\n\rfinished cleaning up ' + message)
                     
     member = client.guilds[0].get_member(425437217612103684)
     print ('sending message')
@@ -321,7 +318,7 @@ async def on_ready():
 
 
     botGuilds = client.guilds
-    print ('guilds set')
+    #print ('guilds set')
     #report.start()    # timer task for future use
     
     
@@ -492,6 +489,7 @@ async def on_voice_state_update(member, before, after):
     global channelPrefixes
     global span
     global runNumber
+    global voiceStateUpdate
 
     adjustmentsMade = False
 
@@ -500,30 +498,40 @@ async def on_voice_state_update(member, before, after):
     #print (f'\n\rGuild is {guild} ')
     nlcr = '\n\r'
 
-    print ('\n\ron voice state update')
-
+    print ('\n\r\n\r\n\r                                       on voice state update ' + str(voiceStateUpdate))
+    voiceStateUpdate += 1
+    #beforeChannelName
+    #afterChannelName
+    
     if (before.channel is None):
-        beforeChannel = 'None'
-    else: beforeChannel=(f"{before.channel}")
-    if (after.channel is None):
-        afterChannel = 'None'
-    else: afterChannel=(f"{after.channel}")
+        beforeChannelName = 'None'
+    else: 
+        beforeChannelName = (f"{before.channel}")
+        beforeChannel = before.channel
 
+    if (after.channel is None):
+        afterChannelName = 'None'
+    else: 
+        afterChannelName = (f"{after.channel}")
+        afterChannel = after.channel.name
+
+    memberDisplayName = member.display_name.split('#')[0]
+    memberName = member.name
+
+    if showMoves:
+        print (f"{nlcr}01 --> {truncateDatetime(datetime.now() + timedelta(hours=zuluDiff))} Guild [{guild.name}] [{memberDisplayName}] - [{memberName}] left channel [{beforeChannelName}] joined channel [{afterChannelName}]")
+    
     for index in range(0, 2):
+        print ('index = ' + str(index))
         makeNewChannelName = makeNewChannelNames[index]
         channelPrefix = channelPrefixes[index]
+        print (f'channel prefix = {channelPrefix}')
 
-        memberDisplayName = member.display_name.split('#')[0]
-        memberName = member.name
-        #if after.channel is not None and before.channel is None:
-        
-        if (beforeChannel != afterChannel):
-            if beforeChannel == makeNewChannelName: nlcr = ''
-            if showMoves:
-                print (f"{nlcr}01 --> {truncateDatetime(datetime.now() + timedelta(hours=zuluDiff))} Guild [{guild.name}] [{memberDisplayName}] - [{memberName}] left channel [{beforeChannel}] joined channel [{afterChannel}]")
-
-            # join MakeNewChannel
-            if ((after.channel is not None) and (after.channel.name == makeNewChannelName)):
+        if (beforeChannelName != afterChannelName):
+            if beforeChannelName == makeNewChannelName: nlcr = ''
+            
+            # member joined MakeNewChannel
+            if afterChannelName == makeNewChannelName:
                 category = after.channel.category
                 existingChannels = [c for c in after.channel.guild.voice_channels if c.name.startswith(channelPrefix)]
                 newChannelNumber = getNewChannelNumber(existingChannels)
@@ -533,34 +541,29 @@ async def on_voice_state_update(member, before, after):
                 time.sleep(span)
                 await member.move_to(newChannel)
                 time.sleep(span)
-                
+                madeNewChannel = True
     
             # prefixed named channel vacated
-            if before.channel is not None and channelPrefix in before.channel.name:
+            if channelPrefix in beforeChannelName:
                 if len(before.channel.members) == 0:
                     await before.channel.delete()
                     time.sleep(span)
                     if showMoves:
                         print (f"02 --> {truncateDatetime(datetime.now() + timedelta(hours=zuluDiff))} Guild [{guild.name}] [{memberDisplayName}] - [{memberName}] vacated channel [{before.channel}] deleted") #moved to {after.channel}")
                 else:
-                    beforeChannel = f"{before.channel}"
-                    if((beforeChannel) != (f"{after.channel}")):
+                    if beforeChannel != afterChannel:
                         newName = f"{channelPrefix}{(re.match(patternGetInt, str(beforeChannel)).group(1))} {before.channel.members[0].display_name.split('#')[0]}"
-                        if before.channel != newName:
-                            if len(before.channel.members) == 0:
-                                await before.channel.delete()
-                                time.sleep(span)
-                                adjustmentsMade = True
-                                print (f"07 --> Guild [{guild.name}] deleted [{channel.name}]")
-                            else: print ('07 --> A CHANNEL IN LIST BUT NOT PRESENT')
-
+                        if beforeChannelName != newName:
                             await before.channel.edit(name=newName)
                             time.sleep(span)
                             if showMoves:
                                 print (f"03 --> {truncateDatetime(datetime.now() + timedelta(hours=zuluDiff))} Guild [{guild.name}] [{memberDisplayName}] - [{memberName}] before channel [{beforeChannel}] renamed to [{newName}]")
                         elif showMoves:
                             (f"04 --> {truncateDatetime(datetime.now() + timedelta(hours=zuluDiff))} Guild [{guild.name}] [{memberDisplayName}] - [{memberName}] before channel [{beforeChannel}] moved to [{after.channel}]")
-            
+                
+            #print ('exiting on voice channel update now'  + str(voiceStateUpdate - 1))
+            #exit
+                
             
             ##Remove empty VC channels            
             #voiceChannels = guild.voice_channels
@@ -571,61 +574,66 @@ async def on_voice_state_update(member, before, after):
             #        await channel.delete()
             #        time.sleep(span)
             #        adjustmentsMade = True
-            #        print (f"02 --> Guild [{guild.name}] deleted [{channel.name}]")
-            #    else: print ('02 --> A CHANNEL IN LIST BUT NOT PRESENT')
+            #        print (f"06 --> Guild [{guild.name}] deleted [{channel.name}]")
+            #    else: print ('06 --> A CHANNEL IN LIST BUT NOT PRESENT')
           
                             
-            # new sort
-            verifiedSorted = False
+        # new sort
+        verifiedSorted = False
+        sortRunNumber = 1
             
-            while not verifiedSorted:
-                voiceChannels = guild.voice_channels
-                MakeNewChannelName = discord.utils.get(voiceChannels, name=makeNewChannelName)
-                prefixedChannels = [c for c in voiceChannels if c.name.startswith(channelPrefix)]
-                #prefixedChannelNames = [c.name for c in prefixedChannels]
-                if MakeNewChannelName is not None: 
-                    MakeNewChannelPosition = MakeNewChannelName.position
-            
+        while not verifiedSorted:
+            voiceChannels = guild.voice_channels
+            makeNewChannel = discord.utils.get(voiceChannels, name=makeNewChannelName)
+            prefixedChannels = [c for c in voiceChannels if c.name.startswith(channelPrefix)]
+            #prefixedChannelNames = [c.name for c in prefixedChannels]
+            makeNewChannelPosition = makeNewChannel.position
        
-                    verifiedSorted = True
-                    print (f'\n\rsort run on voice state update number = {runNumber}')
-                    runNumber += 1
+            verifiedSorted = True
+            print (f'                                   sort run on voice state update number = {sortRunNumber}')
+            sortRunNumber += 1
 
-                    sortedVoiceChannels = sorted(prefixedChannels, key=lambda x: x.name)
-                    for i, voiceChannel in enumerate(sortedVoiceChannels):
-                        expectedPosition = MakeNewChannelPosition + i + 1
-                        if voiceChannel.position != expectedPosition:
-                            await voiceChannel.edit(position=expectedPosition)
-                            time.sleep(span)
-                            adjustmentsMade = True
-                            verifiedSorted = False
+            sortedVoiceChannels = sorted(prefixedChannels, key=lambda x: x.name)
+            for i, voiceChannel in enumerate(sortedVoiceChannels):
+                voiceChannelPosition = voiceChannel.position
+                expectedPosition = makeNewChannelPosition + i + 1
+                print (f'vcp = {voiceChannelPosition} exp = {expectedPosition}')
+                if voiceChannelPosition != expectedPosition:
+                    await voiceChannel.edit(position=expectedPosition)
+                    time.sleep(span)
+                    adjustmentsMade = True
+                    verifiedSorted = False
 
-                            print(f"Moved '{voiceChannel.name}' in position {voiceChannel.position} to position {expectedPosition}.")
- 
+                    print(f"Moved '{voiceChannel.name}' in position {voiceChannelPosition} to position {expectedPosition}.")
+
+        print ('sort ended')
                             
    
 
+        madeNewChannel = False
 
 
-
-        lockReporting = True
+    lockReporting = True
+    voiceStateUpdate += 1
     
-        #for guild in client.guilds:
-        #    channelsData[guild.name] = {}
-        #    for channel in guild.voice_channels:
-        #        channelsData[guild.name][channel.name] = [member.name for member in channel.members]
+    #for guild in client.guilds:
+    #    channelsData[guild.name] = {}
+    #    for channel in guild.voice_channels:
+    #        channelsData[guild.name][channel.name] = [member.name for member in channel.members]
 
 
-        for guild in client.guilds:
-            channelsData[guild.name] = {}
-            for channel in guild.voice_channels:
-                reportedMembers = []
-                for reportedMember in channel.members:
-                    reportedMembers.append(f"{reportedMember.name} ({reportedMember.display_name})")
-                channelsData[guild.name][channel.name] = reportedMembers
+    for guild in client.guilds:
+        channelsData[guild.name] = {}
+        for channel in guild.voice_channels:
+            reportedMembers = []
+            for reportedMember in channel.members:
+                reportedMembers.append(f"{reportedMember.name} ({reportedMember.display_name})")
+            channelsData[guild.name][channel.name] = reportedMembers
                 
-        lockReporting = False
-        doReport = True
+    lockReporting = False
+    doReport = True
+    print ('                                                  on voice channel updade ended ' + str(voiceStateUpdate - 1))
+    
 
     
 
