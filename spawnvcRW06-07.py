@@ -42,7 +42,7 @@ doReport = True
 noActivityMinutes = 0
 makeNewChannelNames = ['MakeNewSerious', 'MakeNewCasual']
 channelPrefixes = ['SC', 'CC']
-span = 1
+span = 0
 voiceStateUpdate = 0
 
 
