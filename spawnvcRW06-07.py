@@ -33,7 +33,7 @@ client = commands.Bot(command_prefix='?', intents=intents)
 
 
 
-zuluDiff = -5
+zuluDiff = -4
 patternGetInt = r"^\D\D(\d{2})"
 channelsData = {}
 lockReporting = True
