@@ -513,7 +513,7 @@ async def on_voice_state_update(member, before, after):
         afterChannelName = 'None'
     else: 
         afterChannelName = (f"{after.channel}")
-        afterChannel = after.channel.name
+        afterChannel = after.channel
 
     memberDisplayName = member.display_name.split('#')[0]
     memberName = member.name
