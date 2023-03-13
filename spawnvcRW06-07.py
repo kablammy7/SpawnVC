@@ -1,4 +1,3 @@
-#testing.py
 #spawnvcRW06-07-.py
 
 import os
@@ -18,7 +17,7 @@ import re
 # uncomment the 2 lines below for PC deploy
 # comment the 2 lines below for railway deploy
 #from dotenv import load_dotenv
-#load_dotenv('kablammytest.env')
+#load_dotenv('.env\spawnvc.env')
 
 #uncomment for PC
 #openai.api_key = os.getenv('TOKEN2')
