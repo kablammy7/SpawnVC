@@ -227,7 +227,6 @@ async def on_ready():
     print ('\n\rLogged in as {0.user}'.format(client))
     print (f'Connected to {len(client.guilds)} guilds')
     print ('executing version spawnvcRW06-07.py')
-    print ('executing version testing.py') # spawnvcRW06-06.py')
     print ('running on desktop')
 
 
@@ -641,7 +640,7 @@ async def on_voice_state_update(member, before, after):
 
 
 # PC deploy
-client.run(os.getenv('TOKEN'))  
+#client.run(os.getenv('TOKEN'))  
 
 #railway deploy 
 client.run(os.environ['TOKEN'])
