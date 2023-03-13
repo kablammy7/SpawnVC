@@ -10,14 +10,15 @@ from xml.dom.expatbuilder import makeBuilder
 import discord
 from discord.ext import commands
 from discord.ext import commands, tasks
-import re#import openai
+import re
+#import openai
 #from reportlab.pdfgen import canvas
 
 
 # uncomment the 2 lines below for PC deploy
 # comment the 2 lines below for railway deploy
-from dotenv import load_dotenv
-load_dotenv('kablammytest.env')
+#from dotenv import load_dotenv
+#load_dotenv('kablammytest.env')
 
 #uncomment for PC
 #openai.api_key = os.getenv('TOKEN2')
@@ -227,7 +228,6 @@ async def on_ready():
     print ('\n\rLogged in as {0.user}'.format(client))
     print (f'Connected to {len(client.guilds)} guilds')
     print ('executing version spawnvcRW06-07.py')
-    print ('executing version testing.py') # spawnvcRW06-06.py')
     print ('running on desktop')
 
 
@@ -513,7 +513,7 @@ async def on_voice_state_update(member, before, after):
         afterChannelName = 'None'
     else: 
         afterChannelName = (f"{after.channel}")
-        afterChannel = after.channel.name
+        afterChannel = after.channel
 
     memberDisplayName = member.display_name.split('#')[0]
     memberName = member.name
@@ -641,10 +641,10 @@ async def on_voice_state_update(member, before, after):
 
 
 # PC deploy
-client.run(os.getenv('TOKEN'))  
+#client.run(os.getenv('TOKEN'))  
 
 #railway deploy 
-#client.run(os.environ['TOKEN'])
+client.run(os.environ['TOKEN'])
 
 # https://discord.com/api/oauth2/authorize?client_id=1079357107771551814&permissions=16787472&scope=bot%20applications.commands
 
